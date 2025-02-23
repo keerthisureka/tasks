@@ -5,8 +5,6 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 @JacksonXmlRootElement(localName = "Employees") // Root element in XML
 public class MyCollection {
     @JacksonXmlElementWrapper(useWrapping = false) // Prevents unwanted <ArrayList> or <item>
