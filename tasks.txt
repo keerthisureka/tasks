@@ -1,0 +1,112 @@
+21.02.2025
+
+Task-1:
+
+1. Implement Employee class with following specification 
+        String firstName
+        String lastName 
+        Date    dateOfBirth
+        double        experience
+
+2. Implement MyCollection class with the following specification
+        Array of 300 entries of Employee class
+        writeCounter
+        readCounter
+        The following methods to be syncronized 
+        add(Employee) -> new element should be added at writeCounter, writeCounter should be increment after every insert 
+        Employee get() -> element should be readCounter, readCounter should be incremented after every read operation 
+
+3. Define a interface MyFileHandler with following methods
+        i. read
+        ii. write
+
+4. Declare CSVFileHandler, XMLFileHandler, JsonFileHandler classes that implements MyFileHandler 
+        i. CSVFileHandler should have ability to read and write data in CSV
+        ii. XMLFileHandler should have ability to read and write data in XML
+        iii. JsonFileHandler should have ability to read and write data in JSON
+
+5. Generate three data files and each file containing 100 records. File one should be CSV format, file should be in XML format and file three should be in JSON format
+
+6. Develop a controller class MyController with the following logic
+        i. Create three threads and allocate one threads each for reading data from CSV, XML and JSON  
+        ii. Each thread reads record by record and insert into MyCollection class 
+        iii. Main thread that has created three threads should wait for all threads to finish
+
+6. Once the read finishes, print the count of elements from MyCollection, it should be 300 and write counter should be properly updated to 300 
+
+7. Create three threads to write data from MyCollection with the following specifications 
+        i. Each thread reading one record from MyCollection, read method should return the value and increment the counter
+        ii. Thread 1 should write record in CSV
+        iii. Thread 2 should write records in XML
+        iv. Thread 3 should write records in JSON 
+        v. Once record is wirtten to the file thread should seek next record from MyCollection 
+        vi. Each thread should finish reading after 100 records 
+        vii. Files should not have duplicate records and should not have more than 100 records
+
+
+
+Task-2:
+
+Given a list of strings, write a stream operation to convert all strings to lowercase.
+
+Filter a list of integers to keep only the odd numbers.
+
+Find the product of all integers in a list using streams.
+
+Check if any string in a list starts with the letter "a".
+
+Find the shortest string in a list of strings.
+
+Calculate the average length of all strings in a list.
+
+Convert a list of strings to a set of unique strings.
+
+Group a list of words by their first letter.
+
+Count the number of occurrences of each word in a list of strings.
+
+Given a list of doubles, find the maximum value.
+
+Transform a list of integers into a list of their cubes.
+
+Concatenate all strings in a list into a single string, separated by spaces.
+
+Find the third largest number in a list of integers (handle duplicates).
+
+Check if all elements in a list are greater than 10.
+
+Partition a list of integers into two groups: positive and negative numbers.
+
+Calculate the sum of the squares of all even numbers in a list.
+
+Remove all duplicate words from a list of strings while preserving the original order.
+
+Find the total number of characters in all strings in a list.
+
+Skip the first 5 elements and take the next 3 elements from a list of integers.
+
+Given a list of Person objects (with name and age properties), create a list containing only the names of people older than 25.
+
+
+
+
+24.02.2025
+
+Task:
+
+The university wants to design a database schema to manage the following data:
+ 
+	1.	Departments – Different academic departments in the university, such as Computer Science, Mathematics, Physics, etc.
+	2.	Students – Students enrolled at the university. Each student is associated with a single department.
+	3.	Courses – Courses offered by each department.
+	4.	Address – The address of each student.
+
+Assignment Questions:
+
+1. Save a student in the database with proper foreign key relationships (existing department and address). write an endpoint to fetch using studentId  and it should return all the details related to Department & Address.
+2. Create a Student with Existing Address & Department
+3. Get Total Student Count in a Department -: Create an API to return the total number of students in a given department (departmentID should be passed from path variable or requestParam). Log an error if the department is not found.
+4. Get Students Living in a Particular State -: Implement an API to fetch all students residing in a given state (passed as a path variable).
+
+
+
