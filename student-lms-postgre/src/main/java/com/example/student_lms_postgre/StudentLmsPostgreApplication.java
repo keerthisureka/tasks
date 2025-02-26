@@ -2,14 +2,12 @@ package com.example.student_lms_postgre;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@EnableSwagger2
+@ComponentScan(basePackages = "com.example.student_lms_postgre")
 public class StudentLmsPostgreApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(StudentLmsPostgreApplication.class, args);
     }
-
 }

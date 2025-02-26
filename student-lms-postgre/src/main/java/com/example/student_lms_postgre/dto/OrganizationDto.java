@@ -1,13 +1,12 @@
 package com.example.student_lms_postgre.dto;
 
-public class CourseDto {
+public class OrganizationDto {
     private Long id;
     private String name;
-    private double fee;
 
     @Override
     public String toString() {
-        return id + " " + name + " " + fee;
+        return id + " " + name;
     }
 
     public Long getId() {
@@ -24,13 +23,5 @@ public class CourseDto {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public double getFee() {
-        return fee;
-    }
-
-    public void setFee(double fee) {
-        this.fee = fee;
     }
 }
