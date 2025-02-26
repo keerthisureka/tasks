@@ -9,7 +9,7 @@ import java.util.*;
 
 @Repository
 public interface StudentCourseRepository extends JpaRepository<StudentCourse, StudentCourseId> {
-    Optional<StudentCourse> findById(StudentCourseId scid);
-
     List<StudentCourse> findByStudent_Id(Long studentId);
+
+    List<StudentCourse> findByCourse_Id(Long courseId);
 }

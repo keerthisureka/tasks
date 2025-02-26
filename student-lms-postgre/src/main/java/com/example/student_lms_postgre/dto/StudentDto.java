@@ -7,6 +7,15 @@ public class StudentDto implements Serializable {
     private Long id;
     private String name;
     private LocalDate dob;
+    private Long organizationId;
+
+    public Long getOrganizationId() {
+        return organizationId;
+    }
+
+    public void setOrganizationId(Long organizationId) {
+        this.organizationId = organizationId;
+    }
 
     @Override
     public String toString() {

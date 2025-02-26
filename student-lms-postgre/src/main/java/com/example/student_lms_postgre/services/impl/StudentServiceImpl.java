@@ -98,4 +98,9 @@ public class StudentServiceImpl implements StudentService {
         }
         return response;
     }
+
+    public int getCountOfStudentsInEachCourse(Long courseId) {
+        List<StudentCourse> scs = studentCourseRepository.findByCourse_Id(courseId);
+        return scs.size();
+    }
 }

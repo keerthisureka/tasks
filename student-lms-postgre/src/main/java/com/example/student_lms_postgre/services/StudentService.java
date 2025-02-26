@@ -15,4 +15,6 @@ public interface StudentService {
     public void withdrawFromCourse(Long studentId, Long courseId);
 
     public List<Map<String, Object>> courseProgress(Long studentId);
+
+    public int getCountOfStudentsInEachCourse(Long courseId);
 }

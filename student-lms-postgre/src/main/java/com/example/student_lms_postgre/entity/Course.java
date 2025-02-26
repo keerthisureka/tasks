@@ -15,8 +15,19 @@ public class Course {
     @JoinColumn(name = "organization_id")
     private Organization organization;
 
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<StudentCourse> studentCourses;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private List<Instructor> instructors;
+
+    public List<Instructor> getInstructors() {
+        return instructors;
+    }
+
+    public void setInstructors(List<Instructor> instructors) {
+        this.instructors = instructors;
+    }
 
     public Long getId() {
         return id;

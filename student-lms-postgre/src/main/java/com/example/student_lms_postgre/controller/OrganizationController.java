@@ -20,8 +20,8 @@ public class OrganizationController {
     OrganizationService organizationService;
 
     @GetMapping("/findAllOrganizations")
-    public ResponseEntity<List<OrganizationDto>> findAll() {
-        return new ResponseEntity<>(organizationService.findAll(), HttpStatus.OK);
+    public ResponseEntity<List<OrganizationDto>> findAllOrganizations() {
+        return new ResponseEntity<>(organizationService.findAllOrganizations(), HttpStatus.OK);
     }
 
     @PostMapping("/createOrganization")
@@ -31,20 +31,20 @@ public class OrganizationController {
     }
 
     // Student
-    @GetMapping("/getAllStudents")
-    public ResponseEntity<Map<String, Object>> getAllStudents() {
-        List<StudentDto> students = organizationService.getAllStudents();
+    @GetMapping("/getAllStudents/{id}")
+    public ResponseEntity<Map<String, Object>> getAllStudents(@PathVariable Long organizationId) {
+        List<StudentDto> students = organizationService.getAllStudents(organizationId);
 
         Map<String, Object> response = new HashMap<>();
-        response.put("message", "All students retrieved successfully!");
+        response.put("message", "All students in the organization with id: " + organizationId + " retrieved successfully!");
         response.put("data", students); // The actual list of student details
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/getStudentById/{id}")
-    public ResponseEntity<Object> getStudentById(@PathVariable Long id) {
-        StudentDto studentDto = organizationService.getStudentById(id);
+    public ResponseEntity<Object> getStudentById(@PathVariable Long studentId) {
+        StudentDto studentDto = organizationService.getStudentById(studentId);
         return new ResponseEntity<>("Student retrieved successfully: \n" + studentDto, HttpStatus.OK);
     }
 
@@ -76,6 +76,18 @@ public class OrganizationController {
     public ResponseEntity<Object> withdrawFromCourse(@RequestParam Long studentId, @RequestParam Long courseId) {
         organizationService.withdrawFromCourse(studentId, courseId);
         return new ResponseEntity<>("Student successfully withdrawn from course!", HttpStatus.OK);
+    }
+
+    @GetMapping("/getCountOfStudents/{id}")
+    public ResponseEntity<Integer> getCountOfStudents(@PathVariable Long organizationId) {
+        List<StudentDto> students = organizationService.getAllStudents(organizationId);
+        return new ResponseEntity<>(students.size(), HttpStatus.OK);
+    }
+
+    @GetMapping("/getCountOfStudentsInEachCourse/{id}")
+    public ResponseEntity<Integer> getCountOfStudentsInEachCourse(@PathVariable Long courseId) {
+        int count = organizationService.getCountOfStudentsInEachCourse(courseId);
+        return new ResponseEntity<>(count, HttpStatus.OK);
     }
 
     // Instructor
@@ -114,6 +126,18 @@ public class OrganizationController {
         return new ResponseEntity<>("Instructor deleted successfully!", HttpStatus.OK);
     }
 
+    @GetMapping("/registerForCourse")
+    public ResponseEntity<Object> registerForCourse(@RequestParam Long instructorId, @RequestParam Long courseId) {
+        organizationService.registerForCourse(instructorId, courseId);
+        return new ResponseEntity<>("Instructor successfully registered for the course!", HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deregisterFromCourse")
+    public ResponseEntity<Object> deregisterFromCourse(@RequestParam Long instructorId) {
+        organizationService.deregisterFromCourse(instructorId);
+        return new ResponseEntity<>("Instructor successfully de-registered from course!", HttpStatus.OK);
+    }
+
     // Course
     @GetMapping("/getAllCourses")
     public ResponseEntity<Map<String, Object>> getAllCourses() {
@@ -142,5 +166,11 @@ public class OrganizationController {
     public ResponseEntity<Object> deleteCourse(@PathVariable Long id) {
         organizationService.deleteCourse(id);
         return new ResponseEntity<>("Course deleted successfully!", HttpStatus.OK);
+    }
+
+    @GetMapping("/getInstructorsForCourse/{id}")
+    public ResponseEntity<Object> getInstructorsForCourse(@PathVariable Long id) {
+        List<InstructorDto> instructorDto = organizationService.getInstructorsForCourse(id);
+        return new ResponseEntity<>("Here are the instructors for the course: \n" + instructorDto, HttpStatus.OK);
     }
 }

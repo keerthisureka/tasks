@@ -7,6 +7,16 @@ public class CourseDto implements Serializable {
     private String name;
     private double fee;
 
+    public Long getOrganizationId() {
+        return organizationId;
+    }
+
+    public void setOrganizationId(Long organizationId) {
+        this.organizationId = organizationId;
+    }
+
+    private Long organizationId;
+
     @Override
     public String toString() {
         return id + " " + name + " " + fee;

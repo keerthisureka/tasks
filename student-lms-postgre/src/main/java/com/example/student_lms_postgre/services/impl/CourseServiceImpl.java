@@ -1,7 +1,11 @@
 package com.example.student_lms_postgre.services.impl;
 
 import com.example.student_lms_postgre.dto.CourseDto;
+import com.example.student_lms_postgre.dto.InstructorDto;
 import com.example.student_lms_postgre.entity.Course;
+import com.example.student_lms_postgre.entity.Instructor;
+import com.example.student_lms_postgre.exception.InvalidException;
+import com.example.student_lms_postgre.exception.NotFoundException;
 import com.example.student_lms_postgre.repository.CourseRepository;
 import com.example.student_lms_postgre.services.CourseService;
 import org.springframework.beans.BeanUtils;
@@ -31,6 +35,24 @@ public class CourseServiceImpl implements CourseService {
         Course c = courseRepository.getOne(id);
         CourseDto dto = new CourseDto();
         BeanUtils.copyProperties(c, dto);
+        return dto;
+    }
+
+    public List<InstructorDto> getInstructorsForCourse(Long courseId) {
+        Course c = courseRepository.findById(courseId).get();
+        if (c == null) {
+            throw new NotFoundException("Course not found!");
+        }
+        if (c.getInstructors().size() == 0) {
+            throw new NotFoundException("Instructors not found!");
+        }
+        List<Instructor> instructors = c.getInstructors();
+        List<InstructorDto> dto = new ArrayList<>();
+        for (Instructor i : instructors) {
+            InstructorDto temp = new InstructorDto();
+            BeanUtils.copyProperties(i, temp);
+            dto.add(temp);
+        }
         return dto;
     }
 }

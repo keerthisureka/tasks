@@ -8,4 +8,8 @@ public interface InstructorService {
     public List<InstructorDto> findAll();
 
     public InstructorDto getOne(Long id);
+
+    public void registerForCourse(Long instructorId, Long courseId);
+
+    public void deregisterFromCourse(Long instructorId);
 }
