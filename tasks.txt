@@ -110,3 +110,35 @@ Assignment Questions:
 
 
 
+25.02.2025
+
+Queries:
+
+db.employee.insert({"firstName":"Trainer", "lastName":"Really", "middleName":"Hate this guy", "dateOfBirth":"2020/Jan/05", "title":"General", "departmentName":"All", "experience":0 })
+db.employee.find({}) ;
+db.employee.findOne({}) ;
+db.employee.find({"firstName" : "Trainer"}) ;
+db.employee.find({"firstName" : "Trainer"}).count() ;
+db.employee.count();
+db.employee.update({"firstName" : "Trainer"},{$set:{"middleName":"Totally hate this guy","lastName":"Absoutely"}});
+db.employee.remove({"firstName" : "Trainer"}) ;
+db.employee.remove({}) ;
+db.employee.insertMany([{"firstName":"Trainer 1", "lastName":"Really", "middleName":"Hate this guy", "dateOfBirth":"2020/Jan/05", "title":"General", "departmentName":"Dept 1", "experience":10 }, {"firstName":"Trainer 2", "lastName":"Good", "middleName":"Understanding", "dateOfBirth":"2019/Jan/05", "title":"General", "departmentName":"Dept 2", "experience":9 }, {"firstName":"Trainer 3", "lastName":"Awesome", "middleName":"Nice", "dateOfBirth":"2019/Jan/05", "title":"General", "departmentName":"Dept 2", "experience":8 } ])
+db.employee.find({}).limit(1) ;
+db.employee.find( {"firstName" : /Trainer/} ) ;
+db.employee.find( {"firstName" : /trainer/i} ) ;
+db.employee.find( {"firstName" : /^Train/} ) ;
+db.employee.find( {"firstName" : /.*1/} ) ;
+db.employee.find( {"firstName" : /^Train.*2/} ) ;
+db.employee.find( {"dateOfBirth" : {$gt: "2020/Jan/01"}} ) ;
+db.employee.find( {"firstName" : {$in: ["Trainer 1","Trainer 2"]}} ) ;
+db.employee.find( {$and: [{"firstName" : /Trainer/}, {"lastName" : "Good"}]} ) ;
+db.employee.find({}).sort({"firstName":1}); 
+db.employee.find({}).sort({"firstName":-1}); 
+db.employee.aggregate([{$group : {_id : "$departmentName", num_tutorial : {$sum : 1}, max_exp : {$max:"$experience"}}}])
+db.employee.distinct("firstName") ;
+db.employee.distinct("firstName") ;
+
+
+
+
