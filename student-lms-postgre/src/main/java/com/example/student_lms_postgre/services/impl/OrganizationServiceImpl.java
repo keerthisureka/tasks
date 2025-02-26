@@ -4,10 +4,7 @@ import com.example.student_lms_postgre.dto.CourseDto;
 import com.example.student_lms_postgre.dto.InstructorDto;
 import com.example.student_lms_postgre.dto.OrganizationDto;
 import com.example.student_lms_postgre.dto.StudentDto;
-import com.example.student_lms_postgre.entity.Course;
-import com.example.student_lms_postgre.entity.Instructor;
-import com.example.student_lms_postgre.entity.Organization;
-import com.example.student_lms_postgre.entity.Student;
+import com.example.student_lms_postgre.entity.*;
 import com.example.student_lms_postgre.exception.InvalidException;
 import com.example.student_lms_postgre.exception.NotFoundException;
 import com.example.student_lms_postgre.repository.CourseRepository;
@@ -15,6 +12,7 @@ import com.example.student_lms_postgre.repository.InstructorRepository;
 import com.example.student_lms_postgre.repository.OrganizationRepository;
 import com.example.student_lms_postgre.repository.StudentRepository;
 import com.example.student_lms_postgre.services.OrganizationService;
+import com.example.student_lms_postgre.services.StudentService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +32,8 @@ public class OrganizationServiceImpl implements OrganizationService {
     InstructorRepository instructorRepository;
     @Autowired
     CourseRepository courseRepository;
+    @Autowired
+    StudentService studentService;
 
     public List<OrganizationDto> findAll() {
         List<Organization> organizations = organizationRepository.findAll();
@@ -112,6 +112,16 @@ public class OrganizationServiceImpl implements OrganizationService {
         } else {
             throw new NotFoundException("Student not found with id: " + id);
         }
+    }
+
+    @Override
+    public void enrollInCourse(Long studentId, Long courseId, CourseStatus status) {
+        studentService.enrollInCourse(studentId, courseId, status);
+    }
+
+    @Override
+    public void withdrawFromCourse(Long studentId, Long courseId) {
+        studentService.withdrawFromCourse(studentId, courseId);
     }
 
     // Instructor

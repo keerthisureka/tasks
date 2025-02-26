@@ -1,6 +1,7 @@
 package com.example.student_lms_postgre.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Course {
@@ -14,6 +15,8 @@ public class Course {
     @JoinColumn(name = "organization_id")
     private Organization organization;
 
+    @OneToMany(mappedBy = "course")
+    private List<StudentCourse> studentCourses;
 
     public Long getId() {
         return id;
@@ -45,5 +48,13 @@ public class Course {
 
     public void setOrganization(Organization organization) {
         this.organization = organization;
+    }
+
+    public List<StudentCourse> getStudentCourses() {
+        return studentCourses;
+    }
+
+    public void setStudentCourses(List<StudentCourse> studentCourses) {
+        this.studentCourses = studentCourses;
     }
 }

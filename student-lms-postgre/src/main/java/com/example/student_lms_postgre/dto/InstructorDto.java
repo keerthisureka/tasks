@@ -1,10 +1,9 @@
 package com.example.student_lms_postgre.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class InstructorDto {
+public class InstructorDto implements Serializable {
     private Long id;
     private String name;
     private LocalDate dob;

@@ -4,6 +4,7 @@ import com.example.student_lms_postgre.dto.CourseDto;
 import com.example.student_lms_postgre.dto.InstructorDto;
 import com.example.student_lms_postgre.dto.OrganizationDto;
 import com.example.student_lms_postgre.dto.StudentDto;
+import com.example.student_lms_postgre.entity.CourseStatus;
 
 import java.util.List;
 
@@ -18,6 +19,9 @@ public interface OrganizationService {
     public void addStudent(StudentDto dto);
     public void editStudent(StudentDto dto);
     public void deleteStudent(Long id);
+
+    public void enrollInCourse(Long studentId, Long courseId, CourseStatus status);
+    public void withdrawFromCourse(Long studentId, Long courseId);
 
     // Instructor
     public List<InstructorDto> getAllInstructors();

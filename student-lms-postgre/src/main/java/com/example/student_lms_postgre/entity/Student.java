@@ -1,9 +1,8 @@
 package com.example.student_lms_postgre.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 public class Student {
@@ -18,6 +17,9 @@ public class Student {
     @ManyToOne
     @JoinColumn(name = "organization_id")
     private Organization organization;
+
+    @OneToMany(mappedBy = "student")
+    private List<StudentCourse> studentCourses;
 
     public Long getId() {
         return id;
@@ -49,5 +51,13 @@ public class Student {
 
     public void setOrganization(Organization organization) {
         this.organization = organization;
+    }
+
+    public List<StudentCourse> getStudentCourses() {
+        return studentCourses;
+    }
+
+    public void setStudentCourses(List<StudentCourse> studentCourses) {
+        this.studentCourses = studentCourses;
     }
 }

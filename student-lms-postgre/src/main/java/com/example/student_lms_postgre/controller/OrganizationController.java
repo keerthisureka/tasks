@@ -4,6 +4,7 @@ import com.example.student_lms_postgre.dto.CourseDto;
 import com.example.student_lms_postgre.dto.InstructorDto;
 import com.example.student_lms_postgre.dto.OrganizationDto;
 import com.example.student_lms_postgre.dto.StudentDto;
+import com.example.student_lms_postgre.entity.CourseStatus;
 import com.example.student_lms_postgre.services.OrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -53,16 +54,28 @@ public class OrganizationController {
         return new ResponseEntity<>("Student details added successfully!", HttpStatus.CREATED);
     }
 
-    @PutMapping ("/editStudent")
+    @PutMapping("/editStudent")
     public ResponseEntity<Object> editStudent(@RequestBody StudentDto dto) {
         organizationService.editStudent(dto);
         return new ResponseEntity<>("Student details edited successfully!", HttpStatus.OK);
     }
 
-    @DeleteMapping ("/deleteStudent/{id}")
+    @DeleteMapping("/deleteStudent/{id}")
     public ResponseEntity<Object> deleteStudent(@PathVariable Long id) {
         organizationService.deleteStudent(id);
         return new ResponseEntity<>("Student deleted successfully!", HttpStatus.OK);
+    }
+
+    @GetMapping("/enrollInCourse")
+    public ResponseEntity<Object> enrollInCourse(@RequestParam Long studentId, @RequestParam Long courseId, @RequestParam CourseStatus status) {
+        organizationService.enrollInCourse(studentId, courseId, status);
+        return new ResponseEntity<>("Student successfully enrolled!", HttpStatus.OK);
+    }
+
+    @DeleteMapping("/withdrawFromCourse")
+    public ResponseEntity<Object> withdrawFromCourse(@RequestParam Long studentId, @RequestParam Long courseId) {
+        organizationService.withdrawFromCourse(studentId, courseId);
+        return new ResponseEntity<>("Student successfully withdrawn from course!", HttpStatus.OK);
     }
 
     // Instructor

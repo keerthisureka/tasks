@@ -1,6 +1,8 @@
 package com.example.student_lms_postgre.dto;
 
-public class CourseDto {
+import java.io.Serializable;
+
+public class CourseDto implements Serializable {
     private Long id;
     private String name;
     private double fee;

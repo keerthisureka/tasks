@@ -1,7 +1,5 @@
 package com.example.student_lms_postgre.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 
