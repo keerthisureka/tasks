@@ -1,6 +1,7 @@
 package com.example.student_lms_postgre.controller;
 
 import com.example.student_lms_postgre.dto.InstructorDto;
+import com.example.student_lms_postgre.entity.CourseStatus;
 import com.example.student_lms_postgre.services.InstructorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,5 +36,11 @@ public class InstructorController {
     public ResponseEntity<Object> deregisterFromCourse(@RequestParam Long instructorId) {
         instructorService.deregisterFromCourse(instructorId);
         return new ResponseEntity<>("Instructor successfully de-registered from course!", HttpStatus.OK);
+    }
+
+    @PutMapping("/updateStudentStatus/{instructorId}")
+    public ResponseEntity<Object> updateStudentStatus(@PathVariable Long instructorId, @RequestParam Long studentId, @RequestParam Long courseId, @RequestParam CourseStatus status) {
+        instructorService.updateStudentStatus(instructorId, studentId, courseId, status);
+        return new ResponseEntity<>("Course status successfully updated for the given Student ID!", HttpStatus.OK);
     }
 }

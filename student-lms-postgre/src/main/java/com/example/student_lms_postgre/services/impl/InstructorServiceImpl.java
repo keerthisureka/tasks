@@ -1,11 +1,11 @@
 package com.example.student_lms_postgre.services.impl;
 
 import com.example.student_lms_postgre.dto.InstructorDto;
-import com.example.student_lms_postgre.entity.Course;
-import com.example.student_lms_postgre.entity.Instructor;
+import com.example.student_lms_postgre.entity.*;
 import com.example.student_lms_postgre.exception.InvalidException;
 import com.example.student_lms_postgre.repository.CourseRepository;
 import com.example.student_lms_postgre.repository.InstructorRepository;
+import com.example.student_lms_postgre.repository.StudentRepository;
 import com.example.student_lms_postgre.services.InstructorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -22,6 +22,8 @@ public class InstructorServiceImpl implements InstructorService {
     InstructorRepository instructorRepository;
     @Autowired
     CourseRepository courseRepository;
+    @Autowired
+    StudentRepository studentRepository;
 
     public List<InstructorDto> findAll() {
         List<Instructor> instructors = instructorRepository.findAll();
@@ -69,5 +71,25 @@ public class InstructorServiceImpl implements InstructorService {
         Long cnt = instructorRepository.findAll().stream()
                 .filter(instructor -> instructor.getOrganization().getId().equals(organizationId)).count();
         return cnt;
+    }
+
+    public void updateStudentStatus(Long instructorId, Long studentId, Long courseId, CourseStatus status) {
+        Instructor i = instructorRepository.findById(instructorId)
+                .orElseThrow(() -> new InvalidException("Invalid Instructor ID! Instructor does not exist!"));
+
+        Course c = courseRepository.findById(courseId)
+                .orElseThrow(() -> new InvalidException("Invalid Course ID! Course does not exist!"));
+
+        Student s = studentRepository.findById(studentId)
+                .orElseThrow(() -> new InvalidException("Invalid Student ID! Student does not exist!"));
+
+        if (i.getCourse().getId() != courseId) {
+            throw new InvalidException("The instructor is not assigned for the given course ID!");
+        }
+
+        StudentCourse sc = new StudentCourse();
+        sc.setStudent(s);
+        sc.setCourse(c);
+        sc.setStatus(status);
     }
 }

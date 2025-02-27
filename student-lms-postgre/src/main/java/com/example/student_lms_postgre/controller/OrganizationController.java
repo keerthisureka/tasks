@@ -4,6 +4,7 @@ import com.example.student_lms_postgre.dto.CourseDto;
 import com.example.student_lms_postgre.dto.InstructorDto;
 import com.example.student_lms_postgre.dto.OrganizationDto;
 import com.example.student_lms_postgre.dto.StudentDto;
+import com.example.student_lms_postgre.entity.Course;
 import com.example.student_lms_postgre.entity.CourseStatus;
 import com.example.student_lms_postgre.services.OrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,13 +115,13 @@ public class OrganizationController {
         return new ResponseEntity<>("Instructor details added successfully!", HttpStatus.CREATED);
     }
 
-    @PutMapping ("/editInstructor")
+    @PutMapping("/editInstructor")
     public ResponseEntity<Object> editInstructor(@RequestBody InstructorDto dto) {
         organizationService.editInstructor(dto);
         return new ResponseEntity<>("Instructor details edited successfully!", HttpStatus.OK);
     }
 
-    @DeleteMapping ("/deleteInstructor/{id}")
+    @DeleteMapping("/deleteInstructor/{id}")
     public ResponseEntity<Object> deleteInstructor(@PathVariable Long id) {
         organizationService.deleteInstructor(id);
         return new ResponseEntity<>("Instructor deleted successfully!", HttpStatus.OK);
@@ -168,7 +169,7 @@ public class OrganizationController {
         return new ResponseEntity<>("Course added successfully!", HttpStatus.CREATED);
     }
 
-    @DeleteMapping ("/deleteCourse/{id}")
+    @DeleteMapping("/deleteCourse/{id}")
     public ResponseEntity<Object> deleteCourse(@PathVariable Long id) {
         organizationService.deleteCourse(id);
         return new ResponseEntity<>("Course deleted successfully!", HttpStatus.OK);
@@ -178,5 +179,18 @@ public class OrganizationController {
     public ResponseEntity<Object> getInstructorsForCourse(@PathVariable Long id) {
         List<InstructorDto> instructorDto = organizationService.getInstructorsForCourse(id);
         return new ResponseEntity<>("Here are the instructors for the course: \n" + instructorDto, HttpStatus.OK);
+    }
+
+    // 6 (e, f)
+    @GetMapping("/students/{courseId}")
+    public ResponseEntity<Object> students(@PathVariable Long courseId) {
+        List<StudentDto> studentDto = organizationService.students(courseId);
+        return new ResponseEntity<>("Here are the students enrolled for this course: \n" + studentDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/instructors/{courseId}")
+    public ResponseEntity<Object> instructors(@PathVariable Long courseId) {
+        List<InstructorDto> instructorDto = organizationService.instructors(courseId);
+        return new ResponseEntity<>("Here are the instructors registered for this course: \n" + instructorDto, HttpStatus.OK);
     }
 }

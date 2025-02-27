@@ -5,6 +5,8 @@ import com.example.student_lms_postgre.dto.InstructorDto;
 import com.example.student_lms_postgre.dto.OrganizationDto;
 import com.example.student_lms_postgre.dto.StudentDto;
 import com.example.student_lms_postgre.entity.CourseStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -42,4 +44,9 @@ public interface OrganizationService {
     public void deleteCourse(Long id);
 
     public List<InstructorDto> getInstructorsForCourse(Long courseId);
+
+    // 6 (e, f)
+    public List<StudentDto> students(Long courseId);
+    public List<InstructorDto> instructors(Long courseId);
+    //  Done above -> public CourseDto getCourseById(Long id);
 }

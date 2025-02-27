@@ -7,10 +7,7 @@ import com.example.student_lms_postgre.dto.StudentDto;
 import com.example.student_lms_postgre.entity.*;
 import com.example.student_lms_postgre.exception.InvalidException;
 import com.example.student_lms_postgre.exception.NotFoundException;
-import com.example.student_lms_postgre.repository.CourseRepository;
-import com.example.student_lms_postgre.repository.InstructorRepository;
-import com.example.student_lms_postgre.repository.OrganizationRepository;
-import com.example.student_lms_postgre.repository.StudentRepository;
+import com.example.student_lms_postgre.repository.*;
 import com.example.student_lms_postgre.services.CourseService;
 import com.example.student_lms_postgre.services.InstructorService;
 import com.example.student_lms_postgre.services.OrganizationService;
@@ -22,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -34,6 +32,8 @@ public class OrganizationServiceImpl implements OrganizationService {
     InstructorRepository instructorRepository;
     @Autowired
     CourseRepository courseRepository;
+    @Autowired
+    StudentCourseRepository studentCourseRepository;
     @Autowired
     StudentService studentService;
     @Autowired
@@ -146,6 +146,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         studentService.withdrawFromCourse(studentId, courseId);
     }
 
+    @Override
     public int getCountOfStudentsInEachCourse(Long courseId) {
         return studentService.getCountOfStudentsInEachCourse(courseId);
     }
@@ -290,5 +291,37 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     public List<InstructorDto> getInstructorsForCourse(Long courseId) {
         return courseService.getInstructorsForCourse(courseId);
+    }
+
+    public List<StudentDto> students(Long courseId) {
+        List<StudentCourse> scs = studentCourseRepository.findByCourse_Id(courseId);
+        if (scs.isEmpty()) {
+            throw new NotFoundException("No students enrolled in this course!");
+        }
+        List<Student> students = new ArrayList<>();
+        for (StudentCourse sc : scs) {
+            students.add(sc.getStudent());
+        }
+
+        List<StudentDto> dto = new ArrayList<>();
+        for (Student s : students) {
+            StudentDto temp = new StudentDto();
+            BeanUtils.copyProperties(s, temp);
+            dto.add(temp);
+        }
+        return dto;
+    }
+
+    public List<InstructorDto> instructors(Long courseId) {
+        List<Instructor> instructors = instructorRepository.findAll().stream()
+                .filter(instructor -> instructor.getCourse().getId().equals(courseId)).collect(Collectors.toList());
+
+        List<InstructorDto> dto = new ArrayList<>();
+        for (Instructor i : instructors) {
+            InstructorDto temp = new InstructorDto();
+            BeanUtils.copyProperties(i, temp);
+            dto.add(temp);
+        }
+        return dto;
     }
 }
