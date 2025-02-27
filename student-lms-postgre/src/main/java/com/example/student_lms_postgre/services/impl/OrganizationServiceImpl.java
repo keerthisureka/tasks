@@ -313,8 +313,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     public List<InstructorDto> instructors(Long courseId) {
-        List<Instructor> instructors = instructorRepository.findAll().stream()
-                .filter(instructor -> instructor.getCourse().getId().equals(courseId)).collect(Collectors.toList());
+        List<Instructor> instructors = instructorRepository.findInstructorsByCourseId(courseId);
 
         List<InstructorDto> dto = new ArrayList<>();
         for (Instructor i : instructors) {

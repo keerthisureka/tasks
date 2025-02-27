@@ -68,9 +68,7 @@ public class InstructorServiceImpl implements InstructorService {
     }
 
     public Long countOfInstructors(Long organizationId) {
-        Long cnt = instructorRepository.findAll().stream()
-                .filter(instructor -> instructor.getOrganization().getId().equals(organizationId)).count();
-        return cnt;
+        return instructorRepository.countOfInstructors(organizationId);
     }
 
     public void updateStudentStatus(Long instructorId, Long studentId, Long courseId, CourseStatus status) {
