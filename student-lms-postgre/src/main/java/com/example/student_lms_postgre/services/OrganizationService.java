@@ -33,6 +33,7 @@ public interface OrganizationService {
 
     public void registerForCourse(Long instructorId, Long courseId);
     public void deregisterFromCourse(Long instructorId);
+    public Long countOfInstructors(Long organizationId);
 
     // Course
     public List<CourseDto> getAllCourses();

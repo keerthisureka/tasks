@@ -15,6 +15,7 @@ import com.example.student_lms_postgre.services.CourseService;
 import com.example.student_lms_postgre.services.InstructorService;
 import com.example.student_lms_postgre.services.OrganizationService;
 import com.example.student_lms_postgre.services.StudentService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 public class OrganizationServiceImpl implements OrganizationService {
     @Autowired
@@ -226,6 +228,11 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public void deregisterFromCourse(Long instructorId) {
         instructorService.deregisterFromCourse(instructorId);
+    }
+
+    @Override
+    public Long countOfInstructors(Long organizationId) {
+        return instructorService.countOfInstructors(organizationId);
     }
 
     // Course

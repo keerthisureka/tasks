@@ -97,7 +97,7 @@ public class OrganizationController {
 
         Map<String, Object> response = new HashMap<>();
         response.put("message", "All instructors retrieved successfully!");
-        response.put("data", instructors); // The actual list of instructor details
+        response.put("data", instructors);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -138,6 +138,12 @@ public class OrganizationController {
         return new ResponseEntity<>("Instructor successfully de-registered from course!", HttpStatus.OK);
     }
 
+    @GetMapping("/countOfInstructors/{id}")
+    public ResponseEntity<Object> countOfInstructors(@PathVariable Long organizationId) {
+        Long cnt = organizationService.countOfInstructors(organizationId);
+        return new ResponseEntity<>("The count of instructors in the organization with id: " + organizationId + " is " + cnt, HttpStatus.OK);
+    }
+
     // Course
     @GetMapping("/getAllCourses")
     public ResponseEntity<Map<String, Object>> getAllCourses() {
@@ -145,7 +151,7 @@ public class OrganizationController {
 
         Map<String, Object> response = new HashMap<>();
         response.put("message", "All courses retrieved successfully!");
-        response.put("data", courses); // The actual list of course details
+        response.put("data", courses);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -158,7 +164,7 @@ public class OrganizationController {
 
     @PostMapping("/addCourse")
     public ResponseEntity<Object> addCourse(@RequestBody CourseDto courseDto) {
-        organizationService.addCourse(courseDto);  // This calls the service method
+        organizationService.addCourse(courseDto);
         return new ResponseEntity<>("Course added successfully!", HttpStatus.CREATED);
     }
 

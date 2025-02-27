@@ -8,6 +8,7 @@ import com.example.student_lms_postgre.exception.InvalidException;
 import com.example.student_lms_postgre.exception.NotFoundException;
 import com.example.student_lms_postgre.repository.CourseRepository;
 import com.example.student_lms_postgre.services.CourseService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 public class CourseServiceImpl implements CourseService {
     @Autowired

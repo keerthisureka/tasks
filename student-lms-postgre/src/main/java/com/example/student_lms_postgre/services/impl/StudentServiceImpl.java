@@ -7,12 +7,14 @@ import com.example.student_lms_postgre.repository.CourseRepository;
 import com.example.student_lms_postgre.repository.StudentCourseRepository;
 import com.example.student_lms_postgre.repository.StudentRepository;
 import com.example.student_lms_postgre.services.StudentService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@Slf4j
 @Service
 public class StudentServiceImpl implements StudentService {
     @Autowired

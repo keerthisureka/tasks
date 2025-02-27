@@ -12,4 +12,6 @@ public interface InstructorService {
     public void registerForCourse(Long instructorId, Long courseId);
 
     public void deregisterFromCourse(Long instructorId);
+
+    public Long countOfInstructors(Long organizationId);
 }
