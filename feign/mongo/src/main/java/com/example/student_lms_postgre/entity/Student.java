@@ -1,14 +1,20 @@
-package com.example.student_lms_postgre.dto;
+package com.example.student_lms_postgre.entity;
 
-import com.example.student_lms_postgre.entity.Course;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
-public class InstructorDto {
+@Document(collection = Student.COLLECTION_NAME)
+public class Student implements Serializable {
+    public static final String COLLECTION_NAME="student";
+
+    @Id
     private String id;
     private String name;
     private LocalDate dob;
-    private String courseId;
 
     public String getId() {
         return id;
@@ -32,13 +38,5 @@ public class InstructorDto {
 
     public void setDob(LocalDate dob) {
         this.dob = dob;
-    }
-
-    public String getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(String courseId) {
-        this.courseId = courseId;
     }
 }

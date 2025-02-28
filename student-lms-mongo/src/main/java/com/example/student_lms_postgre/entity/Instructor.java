@@ -13,7 +13,7 @@ public class Instructor {
     private String id;
     private String name;
     private LocalDate dob;
-    private Course courseId;
+    private String courseId;
 
     public String getId() {
         return id;
@@ -39,11 +39,11 @@ public class Instructor {
         this.dob = dob;
     }
 
-    public Course getCourseId() {
+    public String getCourseId() {
         return courseId;
     }
 
-    public void setCourseId(Course courseId) {
+    public void setCourseId(String courseId) {
         this.courseId = courseId;
     }
 }

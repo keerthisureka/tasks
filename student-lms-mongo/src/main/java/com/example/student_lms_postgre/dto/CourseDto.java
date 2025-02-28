@@ -1,16 +1,13 @@
 package com.example.student_lms_postgre.dto;
 
-import com.example.student_lms_postgre.entity.Instructor;
-import com.example.student_lms_postgre.entity.Student;
-
 import java.util.List;
 
 public class CourseDto {
     private String id;
     private String name;
     private double fee;
-    private List<Student> studentIds;
-    private List<Instructor> instructorIds;
+    private List<String> studentIds;
+    private List<String> instructorIds;
 
     public String getId() {
         return id;
@@ -36,19 +33,19 @@ public class CourseDto {
         this.fee = fee;
     }
 
-    public List<Student> getStudentIds() {
+    public List<String> getStudentIds() {
         return studentIds;
     }
 
-    public void setStudentIds(List<Student> studentIds) {
+    public void setStudentIds(List<String> studentIds) {
         this.studentIds = studentIds;
     }
 
-    public List<Instructor> getInstructorIds() {
+    public List<String> getInstructorIds() {
         return instructorIds;
     }
 
-    public void setInstructorIds(List<Instructor> instructorIds) {
+    public void setInstructorIds(List<String> instructorIds) {
         this.instructorIds = instructorIds;
     }
 }

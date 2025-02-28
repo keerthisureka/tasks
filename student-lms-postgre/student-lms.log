@@ -1,58 +1,18 @@
-2025-02-27 09:52:07.157  INFO 1758 --- [main] c.e.s.StudentLmsPostgreApplication       : Starting StudentLmsPostgreApplication using Java 23.0.2 on Keerthis-MacBook-Pro.local with PID 1758 (/Users/keerthisureka/Documents/tasks/student-lms-postgre/target/classes started by keerthisureka in /Users/keerthisureka/Documents/tasks/student-lms-postgre)
-2025-02-27 09:52:07.160  INFO 1758 --- [main] c.e.s.StudentLmsPostgreApplication       : No active profile set, falling back to 1 default profile: "default"
-2025-02-27 09:52:07.665  INFO 1758 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-02-27 09:52:07.720  INFO 1758 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 45 ms. Found 5 JPA repository interfaces.
-2025-02-27 09:52:08.244  INFO 1758 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
-2025-02-27 09:52:08.252  INFO 1758 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-02-27 09:52:08.252  INFO 1758 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.83]
-2025-02-27 09:52:08.320  INFO 1758 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2025-02-27 09:52:08.320  INFO 1758 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1112 ms
-2025-02-27 09:52:08.765  INFO 1758 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-02-27 09:52:08.829  INFO 1758 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-02-27 09:52:09.329  INFO 1758 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-02-27 09:52:09.825  WARN 1758 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-02-27 09:52:10.791  INFO 1758 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
-2025-02-27 09:52:10.800  INFO 1758 --- [main] c.e.s.StudentLmsPostgreApplication       : Started StudentLmsPostgreApplication in 8.998 seconds (JVM running for 9.393)
-2025-02-27 09:53:15.213  INFO 1758 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-02-27 09:53:15.214  INFO 1758 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2025-02-27 09:53:15.216  INFO 1758 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2025-02-27 09:53:23.322  INFO 1795 --- [main] c.e.s.StudentLmsPostgreApplication       : Starting StudentLmsPostgreApplication using Java 23.0.2 on Keerthis-MacBook-Pro.local with PID 1795 (/Users/keerthisureka/Documents/tasks/student-lms-postgre/target/classes started by keerthisureka in /Users/keerthisureka/Documents/tasks/student-lms-postgre)
-2025-02-27 09:53:23.324  INFO 1795 --- [main] c.e.s.StudentLmsPostgreApplication       : No active profile set, falling back to 1 default profile: "default"
-2025-02-27 09:53:23.812  INFO 1795 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-02-27 09:53:23.867  INFO 1795 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 45 ms. Found 5 JPA repository interfaces.
-2025-02-27 09:53:24.375  INFO 1795 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
-2025-02-27 09:53:24.383  INFO 1795 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-02-27 09:53:24.384  INFO 1795 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.83]
-2025-02-27 09:53:24.454  INFO 1795 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2025-02-27 09:53:24.454  INFO 1795 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1087 ms
-2025-02-27 09:53:24.875  INFO 1795 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-02-27 09:53:24.936  INFO 1795 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-02-27 09:53:25.425  INFO 1795 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-02-27 09:53:25.950  WARN 1795 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-02-27 09:53:26.962  INFO 1795 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
-2025-02-27 09:53:26.970  INFO 1795 --- [main] c.e.s.StudentLmsPostgreApplication       : Started StudentLmsPostgreApplication in 9.023 seconds (JVM running for 9.457)
-2025-02-27 09:54:07.786  INFO 1795 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-02-27 09:54:07.787  INFO 1795 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2025-02-27 09:54:07.789  INFO 1795 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2025-02-27 11:08:30.562  INFO 4273 --- [main] c.e.s.StudentLmsPostgreApplication       : Starting StudentLmsPostgreApplication using Java 23.0.2 on Keerthis-MacBook-Pro.local with PID 4273 (/Users/keerthisureka/Documents/tasks/student-lms-postgre/target/classes started by keerthisureka in /Users/keerthisureka/Documents/tasks/student-lms-postgre)
-2025-02-27 11:08:30.564  INFO 4273 --- [main] c.e.s.StudentLmsPostgreApplication       : No active profile set, falling back to 1 default profile: "default"
-2025-02-27 11:08:31.114  INFO 4273 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-02-27 11:08:31.169  INFO 4273 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 44 ms. Found 5 JPA repository interfaces.
-2025-02-27 11:08:31.673  INFO 4273 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
-2025-02-27 11:08:31.681  INFO 4273 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-02-27 11:08:31.681  INFO 4273 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.83]
-2025-02-27 11:08:31.759  INFO 4273 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2025-02-27 11:08:31.759  INFO 4273 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1156 ms
-2025-02-27 11:08:32.207  INFO 4273 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-02-27 11:08:32.269  INFO 4273 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-02-27 11:08:32.747  INFO 4273 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-02-27 11:08:33.287  WARN 4273 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-02-27 11:08:34.335  INFO 4273 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
-2025-02-27 11:08:34.343  INFO 4273 --- [main] c.e.s.StudentLmsPostgreApplication       : Started StudentLmsPostgreApplication in 9.105 seconds (JVM running for 9.516)
-2025-02-27 11:08:39.070  INFO 4273 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-02-27 11:08:39.071  INFO 4273 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-02-27 11:08:39.072  INFO 4273 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
-2025-02-27 11:08:39.524  INFO 4273 --- [http-nio-8080-exec-3] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 223 ms
-2025-02-27 11:14:38.375  INFO 4273 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-02-27 11:14:38.376  INFO 4273 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2025-02-27 11:14:38.378  INFO 4273 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-02-28 11:17:29.101  INFO 4691 --- [main] c.e.s.StudentLmsPostgreApplication       : Starting StudentLmsPostgreApplication using Java 23.0.2 on Keerthis-MacBook-Pro.local with PID 4691 (/Users/keerthisureka/Documents/tasks/student-lms-postgre/target/classes started by keerthisureka in /Users/keerthisureka/Documents/tasks/student-lms-postgre)
+2025-02-28 11:17:29.106  INFO 4691 --- [main] c.e.s.StudentLmsPostgreApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-02-28 11:17:29.715  INFO 4691 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-02-28 11:17:29.769  INFO 4691 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 45 ms. Found 5 JPA repository interfaces.
+2025-02-28 11:17:30.417  INFO 4691 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2025-02-28 11:17:30.426  INFO 4691 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-02-28 11:17:30.427  INFO 4691 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.83]
+2025-02-28 11:17:30.514  INFO 4691 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-02-28 11:17:30.514  INFO 4691 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1364 ms
+2025-02-28 11:17:31.032  INFO 4691 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-02-28 11:17:31.124  INFO 4691 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-02-28 11:17:31.757  INFO 4691 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-02-28 11:17:32.348  WARN 4691 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-02-28 11:17:33.437  INFO 4691 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2025-02-28 11:17:33.446  INFO 4691 --- [main] c.e.s.StudentLmsPostgreApplication       : Started StudentLmsPostgreApplication in 9.705 seconds (JVM running for 10.153)
+2025-02-28 11:17:52.135  INFO 4691 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-02-28 11:17:52.137  INFO 4691 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-02-28 11:17:52.139  INFO 4691 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

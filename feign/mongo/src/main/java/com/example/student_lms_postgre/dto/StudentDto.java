@@ -1,14 +1,11 @@
 package com.example.student_lms_postgre.dto;
 
-import com.example.student_lms_postgre.entity.Course;
-
 import java.time.LocalDate;
 
-public class InstructorDto {
+public class StudentDto {
     private String id;
     private String name;
     private LocalDate dob;
-    private String courseId;
 
     public String getId() {
         return id;
@@ -32,13 +29,5 @@ public class InstructorDto {
 
     public void setDob(LocalDate dob) {
         this.dob = dob;
-    }
-
-    public String getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(String courseId) {
-        this.courseId = courseId;
     }
 }

@@ -1,14 +1,17 @@
-package com.example.student_lms_postgre.dto;
+package com.example.postgre.entity;
 
-import com.example.student_lms_postgre.entity.Course;
-
+import javax.persistence.*;
 import java.time.LocalDate;
 
-public class InstructorDto {
+@Entity
+public class Student {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
+
     private String name;
+
     private LocalDate dob;
-    private String courseId;
 
     public String getId() {
         return id;
@@ -32,13 +35,5 @@ public class InstructorDto {
 
     public void setDob(LocalDate dob) {
         this.dob = dob;
-    }
-
-    public String getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(String courseId) {
-        this.courseId = courseId;
     }
 }

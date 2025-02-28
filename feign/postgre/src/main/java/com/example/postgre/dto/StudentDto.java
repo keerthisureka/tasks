@@ -1,14 +1,12 @@
-package com.example.student_lms_postgre.dto;
+package com.example.postgre.dto;
 
-import com.example.student_lms_postgre.entity.Course;
-
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class InstructorDto {
+public class StudentDto implements Serializable {
     private String id;
     private String name;
     private LocalDate dob;
-    private String courseId;
 
     public String getId() {
         return id;
@@ -32,13 +30,5 @@ public class InstructorDto {
 
     public void setDob(LocalDate dob) {
         this.dob = dob;
-    }
-
-    public String getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(String courseId) {
-        this.courseId = courseId;
     }
 }
