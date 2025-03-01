@@ -1,7 +1,5 @@
 package com.example.student_lms_postgre.dto;
 
-import com.example.student_lms_postgre.entity.Course;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -9,7 +7,7 @@ public class StudentDto {
     private String id;
     private String name;
     private LocalDate dob;
-    private List<Course> courses;
+    private List<String> courseIds;
 
     public String getId() {
         return id;
@@ -35,11 +33,11 @@ public class StudentDto {
         this.dob = dob;
     }
 
-    public List<Course> getCourses() {
-        return courses;
+    public List<String> getCourseIds() {
+        return courseIds;
     }
 
-    public void setCourses(List<Course> courses) {
-        this.courses = courses;
+    public void setCourseIds(List<String> courseIds) {
+        this.courseIds = courseIds;
     }
 }

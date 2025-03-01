@@ -114,14 +114,10 @@ public class OrganizationServiceImpl implements OrganizationService {
         if (s == null) {
             throw new NotFoundException("Student not found with id: " + dto.getId() + ". Cannot edit student details!");
         }
-        if (dto.getName() != null && dto.getDob() != null) {
-            s.setName(dto.getName());
-            s.setDob(dto.getDob());
-        }
-        else if (dto.getName() != null) {
+        if (dto.getName() != null || !dto.getName().isEmpty()) {
             s.setName(dto.getName());
         }
-        else if (dto.getDob() != null) {
+        if (dto.getDob() != null) {
             s.setDob(dto.getDob());
         }
         studentRepository.save(s);

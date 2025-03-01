@@ -14,22 +14,22 @@ public class Course implements Serializable {
     private String id;
     private String name;
     private double fee;
-    private List<Student> studentIds;
-    private List<Instructor> instructorIds;
+    private List<String> studentIds;
+    private List<String> instructorIds;
 
-    public List<Student> getStudentIds() {
+    public List<String> getStudentIds() {
         return studentIds;
     }
 
-    public void setStudentIds(List<Student> studentIds) {
+    public void setStudentIds(List<String> studentIds) {
         this.studentIds = studentIds;
     }
 
-    public List<Instructor> getInstructorIds() {
+    public List<String> getInstructorIds() {
         return instructorIds;
     }
 
-    public void setInstructorIds(List<Instructor> instructorIds) {
+    public void setInstructorIds(List<String> instructorIds) {
         this.instructorIds = instructorIds;
     }
 

@@ -1,4 +1,4 @@
-package com.example.student_lms_postgre.entity;
+package com.example.student_lms_mongo.entity;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -8,13 +8,14 @@ import java.util.List;
 
 @Document(collection = Student.COLLECTION_NAME)
 public class Student {
-    public static final String COLLECTION_NAME="student";
+    public static final String COLLECTION_NAME="students";
 
     @Id
     private String id;
     private String name;
     private LocalDate dob;
-    private List<Course> courses;
+    private String organizationId;
+    private List<StudentCourse> studentCourses;
 
     public String getId() {
         return id;
@@ -40,11 +41,19 @@ public class Student {
         this.dob = dob;
     }
 
-    public List<Course> getCourses() {
-        return courses;
+    public String getOrganizationId() {
+        return organizationId;
     }
 
-    public void setCourses(List<Course> courses) {
-        this.courses = courses;
+    public void setOrganizationId(String organizationId) {
+        this.organizationId = organizationId;
+    }
+
+    public List<StudentCourse> getStudentCourses() {
+        return studentCourses;
+    }
+
+    public void setStudentCourses(List<StudentCourse> studentCourses) {
+        this.studentCourses = studentCourses;
     }
 }
