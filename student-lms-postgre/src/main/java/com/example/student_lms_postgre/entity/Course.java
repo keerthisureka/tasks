@@ -1,13 +1,16 @@
 package com.example.student_lms_postgre.entity;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 public class Course {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String id;
     private String name;
     private double fee;
 
@@ -21,19 +24,11 @@ public class Course {
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Instructor> instructors;
 
-    public List<Instructor> getInstructors() {
-        return instructors;
-    }
-
-    public void setInstructors(List<Instructor> instructors) {
-        this.instructors = instructors;
-    }
-
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -67,5 +62,13 @@ public class Course {
 
     public void setStudentCourses(List<StudentCourse> studentCourses) {
         this.studentCourses = studentCourses;
+    }
+
+    public List<Instructor> getInstructors() {
+        return instructors;
+    }
+
+    public void setInstructors(List<Instructor> instructors) {
+        this.instructors = instructors;
     }
 }

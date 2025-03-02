@@ -2,7 +2,6 @@ package com.example.student_lms_mongo.dto;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
 
 public class StudentDto implements Serializable {
     private String name;

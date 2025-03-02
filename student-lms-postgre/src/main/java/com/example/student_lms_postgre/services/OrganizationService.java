@@ -11,42 +11,50 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 public interface OrganizationService {
-    public List<OrganizationDto> findAllOrganizations();
-
-    public void createOrganization(OrganizationDto dto);
+    public void createOrganization(OrganizationDto organizationDto);
 
     // Student
-    public List<StudentDto> getAllStudents(Long id);
-    public StudentDto getStudentById(Long id);
-    public void addStudent(StudentDto dto);
-    public void editStudent(StudentDto dto);
-    public void deleteStudent(Long id);
+    public void addStudent(String organizationId, StudentDto dto);
 
-    public void enrollInCourse(Long studentId, Long courseId, CourseStatus status);
-    public void withdrawFromCourse(Long studentId, Long courseId);
-    public int getCountOfStudentsInEachCourse(Long courseId);
+    public void editStudent(String organizationId, String studentId, StudentDto dto);
+
+    public void deleteStudent(String organizationId, String studentId);
+
 
     // Instructor
-    public List<InstructorDto> getAllInstructors();
-    public InstructorDto getInstructorById(Long id);
-    public void addInstructor(InstructorDto dto);
-    public void editInstructor(InstructorDto dto);
-    public void deleteInstructor(Long id);
+    public void addInstructor(String organizationId, InstructorDto dto);
 
-    public void registerForCourse(Long instructorId, Long courseId);
-    public void deregisterFromCourse(Long instructorId);
-    public Long countOfInstructors(Long organizationId);
+    public void editInstructor(String organizationId, String instructorId, InstructorDto dto);
+
+    public void deleteInstructor(String organizationId, String instructorId);
+
 
     // Course
-    public List<CourseDto> getAllCourses();
-    public CourseDto getCourseById(Long id);
-    public void addCourse(CourseDto dto);
-    public void deleteCourse(Long id);
+    public void addCourse(String organizationId, CourseDto dto);
 
-    public List<InstructorDto> getInstructorsForCourse(Long courseId);
+    public void deleteCourse(String organizationId, String courseId);
 
-    // 6 (e, f)
-    public List<StudentDto> students(Long courseId);
-    public List<InstructorDto> instructors(Long courseId);
-    //  Done above -> public CourseDto getCourseById(Long id);
+    // Enroll/Withdraw
+    public void enrollInCourse(String organizationId, String studentId, String courseId, CourseStatus status);
+
+    public void withdrawFromCourse(String organizationId, String studentId, String courseId);
+
+    public void registerForCourse(String organizationId, String instructorId, String courseId);
+
+    public void deregisterFromCourse(String organizationId, String instructorId);
+
+    // As an organization
+    public int countOfStudentsInOrganization(String organizationId);
+
+    public int getCountOfStudentsInEachCourse(String organizationId, String courseId);
+
+    public List<InstructorDto> detailsOfInstructorsForEachCourse(String organizationId, String courseId);
+
+    public int countOfInstructorsInOrganization(String organizationId);
+
+    public List<StudentDto> detailsOfStudentsForEachCourse(String organizationId, String courseId);
+
+    public CourseDto detailsOfCourse(String organizationId, String courseId);
+
+    public List<StudentDto> findStudentByCourseStatus(String organizationId, String courseId, CourseStatus status);
 }

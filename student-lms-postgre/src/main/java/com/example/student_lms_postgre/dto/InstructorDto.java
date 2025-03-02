@@ -4,30 +4,16 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 public class InstructorDto implements Serializable {
-    private Long id;
     private String name;
     private LocalDate dob;
-    private Long organizationId;
+    private String courseId;
 
-    public Long getOrganizationId() {
-        return organizationId;
+    public String getCourseId() {
+        return courseId;
     }
 
-    public void setOrganizationId(Long organizationId) {
-        this.organizationId = organizationId;
-    }
-
-    @Override
-    public String toString() {
-        return id + " " + name + " " + dob;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
     }
 
     public String getName() {

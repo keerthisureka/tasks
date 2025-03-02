@@ -2,21 +2,17 @@ package com.example.student_lms_postgre.services;
 
 import com.example.student_lms_postgre.dto.InstructorDto;
 import com.example.student_lms_postgre.entity.CourseStatus;
-import org.springframework.data.jpa.repository.Query;
-
-import java.util.List;
 
 public interface InstructorService {
-    public List<InstructorDto> findAll();
+    public void addInstructor(String organizationId, InstructorDto dto);
 
-    public InstructorDto getOne(Long id);
+    public void editInstructor(String organizationId, String instructorId, InstructorDto dto);
 
-    public void registerForCourse(Long instructorId, Long courseId);
+    public void deleteInstructor(String organizationId, String instructorId);
 
-    public void deregisterFromCourse(Long instructorId);
+    public void registerForCourse(String instructorId, String courseId);
 
-//    @Query("SELECT COUNT(*) FROM Organization o, Instructor i WHERE o.id = i.organization_id", nativeQuery = true)
-    public Long countOfInstructors(Long organizationId);
+    public void deregisterFromCourse(String instructorId);
 
-    public void updateStudentStatus(Long instructorId, Long studentId, Long courseId, CourseStatus status);
+    public void courseUpdateStatusForStudent(String instructorId, String courseId, String studentId, CourseStatus status);
 }

@@ -1,20 +1,25 @@
 package com.example.student_lms_postgre.services;
 
+import com.example.student_lms_postgre.dto.StudentCourseDto;
 import com.example.student_lms_postgre.dto.StudentDto;
 import com.example.student_lms_postgre.entity.CourseStatus;
 
 import java.util.*;
 
 public interface StudentService {
-    public List<StudentDto> findAll();
+    public void addStudent(String organizationId, StudentDto dto);
 
-    public StudentDto getOne(Long id);
+    public void editStudent(String organizationId, String studentId, StudentDto dto);
 
-    public void enrollInCourse(Long studentId, Long courseId, CourseStatus status);
+    public void deleteStudent(String organizationId, String studentId);
 
-    public void withdrawFromCourse(Long studentId, Long courseId);
+    public void enrollInCourse(String studentId, String courseId, CourseStatus status);
 
-    public List<Map<String, Object>> courseProgress(Long studentId);
+    public void withdrawFromCourse(String studentId, String courseId);
 
-    public int getCountOfStudentsInEachCourse(Long courseId);
+    public List<StudentCourseDto> courseProgress(String studentId);
+
+    public StudentDto getStudentDetails(String studentId);
+
+    public List<StudentDto> findStudentByCourseStatus(String organizationId, String courseId, CourseStatus status);
 }

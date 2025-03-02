@@ -1,5 +1,7 @@
 package com.example.student_lms_postgre.controller;
 
+import com.example.student_lms_postgre.dto.ApiResponse;
+import com.example.student_lms_postgre.dto.StudentCourseDto;
 import com.example.student_lms_postgre.dto.StudentDto;
 import com.example.student_lms_postgre.entity.CourseStatus;
 import com.example.student_lms_postgre.services.StudentService;
@@ -16,31 +18,31 @@ public class StudentController {
     @Autowired
     StudentService studentService;
 
-    @GetMapping("/findAll")
-    public List<StudentDto> findAll() {
-        return studentService.findAll();
-    }
-
-    @GetMapping("/getOne/{id}")
-    public StudentDto getOne(@PathVariable Long id) {
-        return studentService.getOne(id);
-    }
-
-    @GetMapping("/enrollInCourse")
-    public ResponseEntity<Object> enrollInCourse(@RequestParam Long studentId, @RequestParam Long courseId, @RequestParam CourseStatus status) {
+    @PutMapping("/enrollInCourse")
+    public ResponseEntity<ApiResponse<Void>> enrollInCourse(@RequestParam String studentId, @RequestParam String courseId, @RequestParam CourseStatus status) {
         studentService.enrollInCourse(studentId, courseId, status);
-        return new ResponseEntity<>("Student successfully enrolled!", HttpStatus.OK);
+        ApiResponse<Void> response = new ApiResponse<>("Student successfully enrolled!", HttpStatus.OK, null);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/withdrawFromCourse")
-    public ResponseEntity<Object> withdrawFromCourse(@RequestParam Long studentId, @RequestParam Long courseId) {
+    public ResponseEntity<ApiResponse<Void>> withdrawFromCourse(@RequestParam String studentId, @RequestParam String courseId) {
         studentService.withdrawFromCourse(studentId, courseId);
-        return new ResponseEntity<>("Student successfully withdrawn from course!", HttpStatus.OK);
+        ApiResponse<Void> response = new ApiResponse<>("Student successfully withdrawn from course!", HttpStatus.OK, null);
+        return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/courseProgress/{id}")
-    public ResponseEntity<List<Map<String, Object>>> courseProgress(@PathVariable Long id) {
-        List<Map<String, Object>> response = studentService.courseProgress(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    @GetMapping("/courseProgress/{studentId}")
+    public ResponseEntity<ApiResponse<List<StudentCourseDto>>> courseProgress(@PathVariable String studentId) {
+        List<StudentCourseDto> response = studentService.courseProgress(studentId);
+        ApiResponse<List<StudentCourseDto>> apiResponse = new ApiResponse<>("Course progress retrieved successfully!", HttpStatus.OK, response);
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @GetMapping("/getStudentDetails/{studentId}")
+    public ResponseEntity<ApiResponse<StudentDto>> getStudentDetails(@PathVariable String studentId) {
+        StudentDto response = studentService.getStudentDetails(studentId);
+        ApiResponse<StudentDto> apiResponse = new ApiResponse<>("Student details retrieved successfully!", HttpStatus.OK, response);
+        return ResponseEntity.ok(apiResponse);
     }
 }

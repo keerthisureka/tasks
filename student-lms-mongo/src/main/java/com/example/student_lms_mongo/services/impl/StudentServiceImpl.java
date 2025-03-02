@@ -69,25 +69,6 @@ public class StudentServiceImpl implements StudentService {
         if (dto.getDob() != null) {
             s.setDob(dto.getDob());
         }
-//        if (dto.getStudentCourseDtos() != null) {
-//            List<StudentCourseDto> scDtos = dto.getStudentCourseDtos();
-//            List<StudentCourse> scList = s.getStudentCourses();
-//
-//            for (StudentCourseDto scDto : scDtos) {
-//                Optional<StudentCourse> existingCourse = scList.stream()
-//                        .filter(sc -> sc.getCourseId().equals(scDto.getCourseId()))
-//                        .findFirst();
-//
-//                if (existingCourse.isPresent()) {
-//                    existingCourse.get().setStatus(scDto.getStatus());
-//                } else {
-//                    StudentCourse newCourse = new StudentCourse();
-//                    newCourse.setCourseId(scDto.getCourseId());
-//                    newCourse.setStatus(scDto.getStatus());
-//                    scList.add(newCourse);
-//                }
-//            }
-//        }
         studentRepository.save(s);
     }
 
@@ -178,6 +159,11 @@ public class StudentServiceImpl implements StudentService {
     public List<StudentDto> findStudentByCourseStatus(String organizationId, String courseId, CourseStatus status) {
         Organization organization = organizationRepository.findById(organizationId)
                 .orElseThrow(() -> new NotFoundException("Organization not found with id: " + organizationId));
+        Course c = courseRepository.findById(courseId)
+                .orElseThrow(() -> new NotFoundException("Course with the given ID: " + courseId + " does not exist!"));
+        if (!organization.getCourseIds().contains(courseId)) {
+            throw new InvalidException("Course not offered by the given organization ID!");
+        }
         List<Student> students = studentRepository.findStudentsByCourseStatus(courseId, status);
         List<StudentDto> dto = new ArrayList<>();
         for (Student s : students) {

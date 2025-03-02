@@ -17,44 +17,28 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 public class OrganizationServiceImpl implements OrganizationService {
-    @Autowired
-    OrganizationRepository organizationRepository;
-    @Autowired
-    StudentRepository studentRepository;
-    @Autowired
-    InstructorRepository instructorRepository;
-    @Autowired
-    CourseRepository courseRepository;
-    @Autowired
-    StudentCourseRepository studentCourseRepository;
     @Autowired
     StudentService studentService;
     @Autowired
     InstructorService instructorService;
     @Autowired
     CourseService courseService;
+    @Autowired
+    OrganizationRepository organizationRepository;
+    @Autowired
+    StudentRepository studentRepository;
+    @Autowired
+    CourseRepository courseRepository;
+    @Autowired
+    StudentCourseRepository studentCourseRepository;
 
-    public List<OrganizationDto> findAllOrganizations() {
-        List<Organization> organizations = organizationRepository.findAll();
-        if (organizations.isEmpty()) {
-            throw new NotFoundException("No organizations found!");
-        }
-        List<OrganizationDto> dto = new ArrayList<>();
-        for (Organization o : organizations) {
-            OrganizationDto temp = new OrganizationDto();
-            BeanUtils.copyProperties(o, temp);
-            dto.add(temp);
-        }
-        return dto;
-    }
-
+    @Override
     public void createOrganization(OrganizationDto dto) {
         if (dto.getName() == null || dto.getName().isEmpty()) {
             throw new InvalidException("Organization name is missing!");
@@ -65,258 +49,128 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     // Student
-    public List<StudentDto> getAllStudents(Long id) {
-        List<Student> students = studentRepository.findAll();
-        if (students.isEmpty()) {
-            throw new NotFoundException("No students found!");
-        }
-        List<StudentDto> dto = new ArrayList<>();
-        for (Student s : students) {
-            if (s.getOrganization().getId() == id) {
-                StudentDto temp = new StudentDto();
-                BeanUtils.copyProperties(s, temp);
-                dto.add(temp);
-            }
-        }
-        return dto;
-    }
-
-    public StudentDto getStudentById(Long id) {
-        Student s = studentRepository.getOne(id);
-        if (s == null) {
-            throw new NotFoundException("Student Id: " + id + " does not exist!");
-        }
-        StudentDto dto = new StudentDto();
-        BeanUtils.copyProperties(s, dto);
-        return dto;
-    }
-
-    public void addStudent(StudentDto dto) {
-        if (dto.getName() == null || dto.getName().isEmpty()) {
-            throw new InvalidException("Student name is missing!");
-        }
-        if (dto.getDob() == null) {
-            throw new InvalidException("Student Date of Birth (dob) is missing!");
-        }
-        if (dto.getOrganizationId() == null) {
-            throw new InvalidException("Student's organization_id is missing!");
-        }
-        Organization organization = organizationRepository.findById(dto.getOrganizationId())
-                .orElseThrow(() -> new InvalidException("Organization not found!"));
-        Student s = new Student();
-        BeanUtils.copyProperties(dto, s);
-        s.setOrganization(organization);
-        studentRepository.save(s);
-    }
-
-    public void editStudent(StudentDto dto) {
-        Student s = studentRepository.findById(dto.getId()).orElse(null);
-        if (s == null) {
-            throw new NotFoundException("Student not found with id: " + dto.getId() + ". Cannot edit student details!");
-        }
-        if (dto.getName() != null || !dto.getName().isEmpty()) {
-            s.setName(dto.getName());
-        }
-        if (dto.getDob() != null) {
-            s.setDob(dto.getDob());
-        }
-        studentRepository.save(s);
-    }
-
-    public void deleteStudent(Long id) {
-        Student s = studentRepository.findById(id).orElse(null);
-        if (s != null) {
-            studentRepository.deleteById(id);
-        } else {
-            throw new NotFoundException("Student not found with id: " + id);
-        }
+    @Override
+    public void addStudent(String organizationId, StudentDto dto) {
+        studentService.addStudent(organizationId, dto);
     }
 
     @Override
-    public void enrollInCourse(Long studentId, Long courseId, CourseStatus status) {
+    public void editStudent(String organizationId, String studentId, StudentDto dto) {
+        studentService.editStudent(organizationId, studentId, dto);
+    }
+
+    @Override
+    public void deleteStudent(String organizationId, String studentId) {
+        studentService.deleteStudent(organizationId, studentId);
+    }
+
+    // Instructor
+    @Override
+    public void addInstructor(String organizationId, InstructorDto dto) {
+        instructorService.addInstructor(organizationId, dto);
+    }
+
+    @Override
+    public void editInstructor(String organizationId, String instructorId, InstructorDto dto) {
+        instructorService.editInstructor(organizationId, instructorId, dto);
+    }
+
+    @Override
+    public void deleteInstructor(String organizationId, String instructorId) {
+        instructorService.deleteInstructor(organizationId, instructorId);
+    }
+
+    // Course
+    @Override
+    public void addCourse(String organizationId, CourseDto dto) {
+        courseService.addCourse(organizationId, dto);
+    }
+
+    @Override
+    public void deleteCourse(String organizationId, String courseId) {
+        courseService.deleteCourse(organizationId, courseId);
+    }
+
+    // Enroll/Withdraw
+    // Student
+    @Override
+    public void enrollInCourse(String organizationId, String studentId, String courseId, CourseStatus status) {
+        Organization organization = organizationRepository.findById(organizationId)
+                .orElseThrow(() -> new NotFoundException("Organization not found with id: " + organizationId));
+        if (!organizationRepository.findStudentIdsByOrganization(organizationId).contains(studentId)) {
+            throw new InvalidException("Student not registered with the given organization ID!");
+        }
         studentService.enrollInCourse(studentId, courseId, status);
     }
 
     @Override
-    public void withdrawFromCourse(Long studentId, Long courseId) {
+    public void withdrawFromCourse(String organizationId, String studentId, String courseId) {
+        Organization organization = organizationRepository.findById(organizationId)
+                .orElseThrow(() -> new NotFoundException("Organization not found with id: " + organizationId));
+        if (!organizationRepository.findStudentIdsByOrganization(organizationId).contains(studentId)) {
+            throw new InvalidException("Student not registered with the given organization ID!");
+        }
         studentService.withdrawFromCourse(studentId, courseId);
     }
 
-    @Override
-    public int getCountOfStudentsInEachCourse(Long courseId) {
-        return studentService.getCountOfStudentsInEachCourse(courseId);
-    }
-
     // Instructor
-    public List<InstructorDto> getAllInstructors() {
-        List<Instructor> instructors = instructorRepository.findAll();
-        if (instructors.isEmpty()) {
-            throw new NotFoundException("No instructors found!");
-        }
-        List<InstructorDto> dto = new ArrayList<>();
-        for (Instructor i : instructors) {
-            InstructorDto temp = new InstructorDto();
-            BeanUtils.copyProperties(i, temp);
-            dto.add(temp);
-        }
-        return dto;
-    }
-
-    public InstructorDto getInstructorById(Long id) {
-        Instructor i = instructorRepository.getOne(id);
-        if (i == null) {
-            throw new NotFoundException("Instructor Id: " + id + " does not exist!");
-        }
-        InstructorDto dto = new InstructorDto();
-        BeanUtils.copyProperties(i, dto);
-        return dto;
-    }
-
-    public void addInstructor(InstructorDto dto) {
-        if (dto.getName() == null || dto.getName().isEmpty()) {
-            throw new InvalidException("Instructor name is missing!");
-        }
-        if (dto.getDob() == null) {
-            throw new InvalidException("Instructor Date of Birth (dob) is missing!");
-        }
-        if (dto.getOrganizationId() == null) {
-            throw new InvalidException("Instructor's organization_id is missing!");
-        }
-        Organization organization = organizationRepository.findById(dto.getOrganizationId())
-                .orElseThrow(() -> new InvalidException("Organization not found!"));
-        Instructor i = new Instructor();
-        BeanUtils.copyProperties(dto, i);
-        i.setOrganization(organization);
-        instructorRepository.save(i);
-    }
-
-    public void editInstructor(InstructorDto dto) {
-        Instructor i = instructorRepository.findById(dto.getId()).orElse(null);
-        if (i == null) {
-            throw new NotFoundException("Instructor not found with id: " + dto.getId() + ". Cannot edit instructor details!");
-        }
-        if (dto.getName() != null && dto.getDob() != null) {
-            i.setName(dto.getName());
-            i.setDob(dto.getDob());
-        }
-        else if (dto.getName() != null) {
-            i.setName(dto.getName());
-        }
-        else if (dto.getDob() != null) {
-            i.setDob(dto.getDob());
-        }
-        instructorRepository.save(i);
-    }
-
-    public void deleteInstructor(Long id) {
-        Instructor i = instructorRepository.findById(id).orElse(null);
-        if (i != null) {
-            instructorRepository.deleteById(id);
-        } else {
-            throw new NotFoundException("Instructor not found with id: " + id);
-        }
-    }
-
     @Override
-    public void registerForCourse(Long instructorId, Long courseId) {
+    public void registerForCourse(String organizationId, String instructorId, String courseId) {
+        Organization organization = organizationRepository.findById(organizationId)
+                .orElseThrow(() -> new NotFoundException("Organization not found with id: " + organizationId));
+        if (!organizationRepository.findInstructorIdsByOrganization(organizationId).contains(instructorId)) {
+            throw new InvalidException("Instructor not registered with the given organization ID!");
+        }
         instructorService.registerForCourse(instructorId, courseId);
     }
 
     @Override
-    public void deregisterFromCourse(Long instructorId) {
+    public void deregisterFromCourse(String organizationId, String instructorId) {
+        Organization organization = organizationRepository.findById(organizationId)
+                .orElseThrow(() -> new NotFoundException("Organization not found with id: " + organizationId));
+        if (!organizationRepository.findInstructorIdsByOrganization(organizationId).contains(instructorId)) {
+            throw new InvalidException("Instructor not registered with the given organization ID!");
+        }
         instructorService.deregisterFromCourse(instructorId);
     }
 
+    // As an organization
     @Override
-    public Long countOfInstructors(Long organizationId) {
-        return instructorService.countOfInstructors(organizationId);
+    public int countOfStudentsInOrganization(String organizationId) {
+        Organization organization = organizationRepository.findById(organizationId)
+                .orElseThrow(() -> new NotFoundException("Organization not found with id: " + organizationId));
+        return organization.getStudents().size();
     }
 
-    // Course
-    public List<CourseDto> getAllCourses() {
-        List<Course> courses = courseRepository.findAll();
-        if (courses.isEmpty()) {
-            throw new NotFoundException("No courses found!");
-        }
-        List<CourseDto> dto = new ArrayList<>();
-        for (Course c : courses) {
-            CourseDto temp = new CourseDto();
-            BeanUtils.copyProperties(c, temp);
-            dto.add(temp);
-        }
-        return dto;
+    @Override
+    public int getCountOfStudentsInEachCourse(String organizationId, String courseId) {
+        return courseService.getCountOfStudentsInEachCourse(organizationId, courseId);
     }
 
-    public CourseDto getCourseById(Long id) {
-        Course c = courseRepository.getOne(id);
-        if (c == null) {
-            throw new NotFoundException("Course Id: " + id + " does not exist!");
-        }
-        CourseDto dto = new CourseDto();
-        BeanUtils.copyProperties(c, dto);
-        return dto;
+    @Override
+    public List<InstructorDto> detailsOfInstructorsForEachCourse(String organizationId, String courseId) {
+        return courseService.detailsOfInstructorsForEachCourse(organizationId, courseId);
     }
 
-    public void addCourse(CourseDto dto) {
-        if (dto.getName() == null || dto.getName().isEmpty()) {
-            throw new InvalidException("Course name is missing!");
-        }
-        if (dto.getFee() <= 0.0) {
-            throw new InvalidException("Course fee is missing!");
-        }
-        if (dto.getOrganizationId() == null) {
-            throw new InvalidException("Course's organization_id is missing!");
-        }
-        Organization organization = organizationRepository.findById(dto.getOrganizationId())
-                .orElseThrow(() -> new InvalidException("Organization not found!"));
-
-        Course c = new Course();
-        BeanUtils.copyProperties(dto, c);
-        c.setOrganization(organization);
-        courseRepository.save(c);
+    @Override
+    public int countOfInstructorsInOrganization(String organizationId) {
+        Organization organization = organizationRepository.findById(organizationId)
+                .orElseThrow(() -> new NotFoundException("Organization not found with id: " + organizationId));
+        return organization.getInstructors().size();
     }
 
-    public void deleteCourse(Long id) {
-        Course c = courseRepository.findById(id).orElse(null);
-        if (c != null) {
-            courseRepository.deleteById(id);
-        } else {
-            throw new NotFoundException("Course not found with id: " + id);
-        }
+    @Override
+    public List<StudentDto> detailsOfStudentsForEachCourse(String organizationId, String courseId) {
+        return courseService.detailsOfStudentsForEachCourse(organizationId, courseId);
     }
 
-    public List<InstructorDto> getInstructorsForCourse(Long courseId) {
-        return courseService.getInstructorsForCourse(courseId);
+    @Override
+    public CourseDto detailsOfCourse(String organizationId, String courseId) {
+        return courseService.detailsOfCourse(organizationId, courseId);
     }
 
-    public List<StudentDto> students(Long courseId) {
-        List<StudentCourse> scs = studentCourseRepository.findByCourse_Id(courseId);
-        if (scs.isEmpty()) {
-            throw new NotFoundException("No students enrolled in this course!");
-        }
-        List<Student> students = new ArrayList<>();
-        for (StudentCourse sc : scs) {
-            students.add(sc.getStudent());
-        }
-
-        List<StudentDto> dto = new ArrayList<>();
-        for (Student s : students) {
-            StudentDto temp = new StudentDto();
-            BeanUtils.copyProperties(s, temp);
-            dto.add(temp);
-        }
-        return dto;
-    }
-
-    public List<InstructorDto> instructors(Long courseId) {
-        List<Instructor> instructors = instructorRepository.findInstructorsByCourseId(courseId);
-
-        List<InstructorDto> dto = new ArrayList<>();
-        for (Instructor i : instructors) {
-            InstructorDto temp = new InstructorDto();
-            BeanUtils.copyProperties(i, temp);
-            dto.add(temp);
-        }
-        return dto;
+    @Override
+    public List<StudentDto> findStudentByCourseStatus(String organizationId, String courseId, CourseStatus status) {
+        return studentService.findStudentByCourseStatus(organizationId, courseId, status);
     }
 }

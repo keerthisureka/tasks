@@ -1,5 +1,7 @@
 package com.example.student_lms_postgre.entity;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -7,8 +9,9 @@ import java.util.List;
 @Entity
 public class Student {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String id;
 
     private String name;
 
@@ -21,11 +24,11 @@ public class Student {
     @OneToMany(mappedBy = "student")
     private List<StudentCourse> studentCourses;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

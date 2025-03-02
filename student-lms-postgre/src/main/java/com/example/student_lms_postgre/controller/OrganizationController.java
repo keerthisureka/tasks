@@ -1,9 +1,6 @@
 package com.example.student_lms_postgre.controller;
 
-import com.example.student_lms_postgre.dto.CourseDto;
-import com.example.student_lms_postgre.dto.InstructorDto;
-import com.example.student_lms_postgre.dto.OrganizationDto;
-import com.example.student_lms_postgre.dto.StudentDto;
+import com.example.student_lms_postgre.dto.*;
 import com.example.student_lms_postgre.entity.Course;
 import com.example.student_lms_postgre.entity.CourseStatus;
 import com.example.student_lms_postgre.services.OrganizationService;
@@ -20,177 +17,148 @@ public class OrganizationController {
     @Autowired
     OrganizationService organizationService;
 
-    @GetMapping("/findAllOrganizations")
-    public ResponseEntity<List<OrganizationDto>> findAllOrganizations() {
-        return new ResponseEntity<>(organizationService.findAllOrganizations(), HttpStatus.OK);
-    }
-
     @PostMapping("/createOrganization")
-    public ResponseEntity<Object> createOrganization(OrganizationDto dto) {
+    public ResponseEntity<ApiResponse<Void>> createOrganization(@RequestBody OrganizationDto dto) {
         organizationService.createOrganization(dto);
-        return new ResponseEntity<>("Organization created successfully!", HttpStatus.CREATED);
+        ApiResponse<Void> response = new ApiResponse<>("Organization created successfully!", HttpStatus.CREATED, null);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     // Student
-    @GetMapping("/getAllStudents/{id}")
-    public ResponseEntity<Map<String, Object>> getAllStudents(@PathVariable Long organizationId) {
-        List<StudentDto> students = organizationService.getAllStudents(organizationId);
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("message", "All students in the organization with id: " + organizationId + " retrieved successfully!");
-        response.put("data", students); // The actual list of student details
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    @PostMapping("/addStudent/{organizationId}")
+    public ResponseEntity<ApiResponse<Void>> addStudent(@PathVariable String organizationId, @RequestBody StudentDto studentDto) {
+        organizationService.addStudent(organizationId, studentDto);
+        ApiResponse<Void> response = new ApiResponse<>("Student details added successfully!", HttpStatus.CREATED, null);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/getStudentById/{id}")
-    public ResponseEntity<Object> getStudentById(@PathVariable Long studentId) {
-        StudentDto studentDto = organizationService.getStudentById(studentId);
-        return new ResponseEntity<>("Student retrieved successfully: \n" + studentDto, HttpStatus.OK);
+    @PutMapping("/editStudent/{organizationId}/{studentId}")
+    public ResponseEntity<ApiResponse<Void>> editStudent(@PathVariable String organizationId, @PathVariable String studentId, @RequestBody StudentDto studentDto) {
+        organizationService.editStudent(organizationId, studentId, studentDto);
+        ApiResponse<Void> response = new ApiResponse<>("Student details edited successfully!", HttpStatus.OK, null);
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/addStudent")
-    public ResponseEntity<Object> addStudent(@RequestBody StudentDto dto) {
-        organizationService.addStudent(dto);
-        return new ResponseEntity<>("Student details added successfully!", HttpStatus.CREATED);
-    }
-
-    @PutMapping("/editStudent")
-    public ResponseEntity<Object> editStudent(@RequestBody StudentDto dto) {
-        organizationService.editStudent(dto);
-        return new ResponseEntity<>("Student details edited successfully!", HttpStatus.OK);
-    }
-
-    @DeleteMapping("/deleteStudent/{id}")
-    public ResponseEntity<Object> deleteStudent(@PathVariable Long id) {
-        organizationService.deleteStudent(id);
-        return new ResponseEntity<>("Student deleted successfully!", HttpStatus.OK);
-    }
-
-    @GetMapping("/enrollInCourse")
-    public ResponseEntity<Object> enrollInCourse(@RequestParam Long studentId, @RequestParam Long courseId, @RequestParam CourseStatus status) {
-        organizationService.enrollInCourse(studentId, courseId, status);
-        return new ResponseEntity<>("Student successfully enrolled!", HttpStatus.OK);
-    }
-
-    @DeleteMapping("/withdrawFromCourse")
-    public ResponseEntity<Object> withdrawFromCourse(@RequestParam Long studentId, @RequestParam Long courseId) {
-        organizationService.withdrawFromCourse(studentId, courseId);
-        return new ResponseEntity<>("Student successfully withdrawn from course!", HttpStatus.OK);
-    }
-
-    @GetMapping("/getCountOfStudents/{id}")
-    public ResponseEntity<Integer> getCountOfStudents(@PathVariable Long organizationId) {
-        List<StudentDto> students = organizationService.getAllStudents(organizationId);
-        return new ResponseEntity<>(students.size(), HttpStatus.OK);
-    }
-
-    @GetMapping("/getCountOfStudentsInEachCourse/{id}")
-    public ResponseEntity<Integer> getCountOfStudentsInEachCourse(@PathVariable Long courseId) {
-        int count = organizationService.getCountOfStudentsInEachCourse(courseId);
-        return new ResponseEntity<>(count, HttpStatus.OK);
+    @DeleteMapping("/deleteStudent/{organizationId}/{studentId}")
+    public ResponseEntity<ApiResponse<Void>> deleteStudent(@PathVariable String organizationId, @PathVariable String studentId) {
+        organizationService.deleteStudent(organizationId, studentId);
+        ApiResponse<Void> response = new ApiResponse<>("Student deleted successfully!", HttpStatus.OK, null);
+        return ResponseEntity.ok(response);
     }
 
     // Instructor
-    @GetMapping("/getAllInstructors")
-    public ResponseEntity<Map<String, Object>> getAllInstructors() {
-        List<InstructorDto> instructors = organizationService.getAllInstructors();
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("message", "All instructors retrieved successfully!");
-        response.put("data", instructors);
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    @PostMapping("/addInstructor/{organizationId}")
+    public ResponseEntity<ApiResponse<Void>> addInstructor(@PathVariable String organizationId, @RequestBody InstructorDto instructorDto) {
+        organizationService.addInstructor(organizationId, instructorDto);
+        ApiResponse<Void> response = new ApiResponse<>("Instructor details added successfully!", HttpStatus.CREATED, null);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/getInstructorById/{id}")
-    public ResponseEntity<Object> getInstructorById(@PathVariable Long id) {
-        InstructorDto instructorDto = organizationService.getInstructorById(id);
-        return new ResponseEntity<>("Instructor retrieved successfully: \n" + instructorDto, HttpStatus.OK);
+    @PutMapping("/editInstructor/{organizationId}/{instructorId}")
+    public ResponseEntity<ApiResponse<Void>> editInstructor(@PathVariable String organizationId, @PathVariable String instructorId, @RequestBody InstructorDto instructorDto) {
+        organizationService.editInstructor(organizationId, instructorId, instructorDto);
+        ApiResponse<Void> response = new ApiResponse<>("Instructor details edited successfully!", HttpStatus.OK, null);
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/addInstructor")
-    public ResponseEntity<Object> addInstructor(@RequestBody InstructorDto dto) {
-        organizationService.addInstructor(dto);
-        return new ResponseEntity<>("Instructor details added successfully!", HttpStatus.CREATED);
-    }
-
-    @PutMapping("/editInstructor")
-    public ResponseEntity<Object> editInstructor(@RequestBody InstructorDto dto) {
-        organizationService.editInstructor(dto);
-        return new ResponseEntity<>("Instructor details edited successfully!", HttpStatus.OK);
-    }
-
-    @DeleteMapping("/deleteInstructor/{id}")
-    public ResponseEntity<Object> deleteInstructor(@PathVariable Long id) {
-        organizationService.deleteInstructor(id);
-        return new ResponseEntity<>("Instructor deleted successfully!", HttpStatus.OK);
-    }
-
-    @GetMapping("/registerForCourse")
-    public ResponseEntity<Object> registerForCourse(@RequestParam Long instructorId, @RequestParam Long courseId) {
-        organizationService.registerForCourse(instructorId, courseId);
-        return new ResponseEntity<>("Instructor successfully registered for the course!", HttpStatus.OK);
-    }
-
-    @DeleteMapping("/deregisterFromCourse")
-    public ResponseEntity<Object> deregisterFromCourse(@RequestParam Long instructorId) {
-        organizationService.deregisterFromCourse(instructorId);
-        return new ResponseEntity<>("Instructor successfully de-registered from course!", HttpStatus.OK);
-    }
-
-    @GetMapping("/countOfInstructors/{id}")
-    public ResponseEntity<Object> countOfInstructors(@PathVariable Long organizationId) {
-        Long cnt = organizationService.countOfInstructors(organizationId);
-        return new ResponseEntity<>("The count of instructors in the organization with id: " + organizationId + " is " + cnt, HttpStatus.OK);
+    @DeleteMapping("/deleteInstructor/{organizationId}/{instructorId}")
+    public ResponseEntity<ApiResponse<Void>> deleteInstructor(@PathVariable String organizationId, @PathVariable String instructorId) {
+        organizationService.deleteInstructor(organizationId, instructorId);
+        ApiResponse<Void> response = new ApiResponse<>("Instructor deleted successfully!", HttpStatus.OK, null);
+        return ResponseEntity.ok(response);
     }
 
     // Course
-    @GetMapping("/getAllCourses")
-    public ResponseEntity<Map<String, Object>> getAllCourses() {
-        List<CourseDto> courses = organizationService.getAllCourses();
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("message", "All courses retrieved successfully!");
-        response.put("data", courses);
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    @PostMapping("/addCourse/{organizationId}")
+    public ResponseEntity<ApiResponse<Void>> addCourse(@PathVariable String organizationId, @RequestBody CourseDto courseDto) {
+        organizationService.addCourse(organizationId, courseDto);
+        ApiResponse<Void> response = new ApiResponse<>("Course added successfully!", HttpStatus.CREATED, null);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/getCourseById/{id}")
-    public ResponseEntity<Object> getCourseById(@PathVariable Long id) {
-        CourseDto courseDto = organizationService.getCourseById(id);
-        return new ResponseEntity<>("Course retrieved successfully: \n" + courseDto, HttpStatus.OK);
+    @DeleteMapping("/deleteCourse/{organizationId}/{courseId}")
+    public ResponseEntity<ApiResponse<Void>> deleteCourse(@PathVariable String organizationId, @PathVariable String courseId) {
+        organizationService.deleteCourse(organizationId, courseId);
+        ApiResponse<Void> response = new ApiResponse<>("Course deleted successfully!", HttpStatus.OK, null);
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/addCourse")
-    public ResponseEntity<Object> addCourse(@RequestBody CourseDto courseDto) {
-        organizationService.addCourse(courseDto);
-        return new ResponseEntity<>("Course added successfully!", HttpStatus.CREATED);
+    // Enroll/Withdraw
+    @PutMapping("/enrollInCourse/{organizationId}")
+    public ResponseEntity<ApiResponse<Void>> enrollInCourse(@PathVariable String organizationId, @RequestParam String studentId, @RequestParam String courseId, @RequestParam CourseStatus status) {
+        organizationService.enrollInCourse(organizationId, studentId, courseId, status);
+        ApiResponse<Void> response = new ApiResponse<>("Student successfully enrolled!", HttpStatus.OK, null);
+        return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/deleteCourse/{id}")
-    public ResponseEntity<Object> deleteCourse(@PathVariable Long id) {
-        organizationService.deleteCourse(id);
-        return new ResponseEntity<>("Course deleted successfully!", HttpStatus.OK);
+    @DeleteMapping("/withdrawFromCourse/{organizationId}")
+    public ResponseEntity<ApiResponse<Void>> withdrawFromCourse(@PathVariable String organizationId, @RequestParam String studentId, @RequestParam String courseId) {
+        organizationService.withdrawFromCourse(organizationId, studentId, courseId);
+        ApiResponse<Void> response = new ApiResponse<>("Student successfully withdrawn from course!", HttpStatus.OK, null);
+        return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/getInstructorsForCourse/{id}")
-    public ResponseEntity<Object> getInstructorsForCourse(@PathVariable Long id) {
-        List<InstructorDto> instructorDto = organizationService.getInstructorsForCourse(id);
-        return new ResponseEntity<>("Here are the instructors for the course: \n" + instructorDto, HttpStatus.OK);
+    @PutMapping("/registerForCourse/{organizationId}")
+    public ResponseEntity<ApiResponse<Void>> registerForCourse(@PathVariable String organizationId, @RequestParam String instructorId, @RequestParam String courseId) {
+        organizationService.registerForCourse(organizationId, instructorId, courseId);
+        ApiResponse<Void> response = new ApiResponse<>("Instructor successfully registered for the course!", HttpStatus.OK, null);
+        return ResponseEntity.ok(response);
     }
 
-    // 6 (e, f)
-    @GetMapping("/students/{courseId}")
-    public ResponseEntity<Object> students(@PathVariable Long courseId) {
-        List<StudentDto> studentDto = organizationService.students(courseId);
-        return new ResponseEntity<>("Here are the students enrolled for this course: \n" + studentDto, HttpStatus.OK);
+    @DeleteMapping("/deregisterFromCourse/{organizationId}")
+    public ResponseEntity<ApiResponse<Void>> deregisterFromCourse(@PathVariable String organizationId, @RequestParam String instructorId) {
+        organizationService.deregisterFromCourse(organizationId, instructorId);
+        ApiResponse<Void> response = new ApiResponse<>("Instructor successfully de-registered from course!", HttpStatus.OK, null);
+        return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/instructors/{courseId}")
-    public ResponseEntity<Object> instructors(@PathVariable Long courseId) {
-        List<InstructorDto> instructorDto = organizationService.instructors(courseId);
-        return new ResponseEntity<>("Here are the instructors registered for this course: \n" + instructorDto, HttpStatus.OK);
+    // As an organization
+    @GetMapping("/countOfStudentsInOrganization/{organizationId}")
+    public ResponseEntity<ApiResponse<Integer>> countOfStudentsInOrganization(@PathVariable String organizationId) {
+        int count = organizationService.countOfStudentsInOrganization(organizationId);
+        ApiResponse<Integer> response = new ApiResponse<>("The count of students in the organization with ID " + organizationId + " is: " + count, HttpStatus.OK, count);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/getCountOfStudentsInEachCourse/{organizationId}/{courseId}")
+    public ResponseEntity<ApiResponse<Integer>> getCountOfStudentsInEachCourse(@PathVariable String organizationId, @PathVariable String courseId) {
+        int count = organizationService.getCountOfStudentsInEachCourse(organizationId, courseId);
+        ApiResponse<Integer> response = new ApiResponse<>("The count of students for the course with ID " + courseId + " is: " + count, HttpStatus.OK, count);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/detailsOfInstructorsForEachCourse/{organizationId}/{courseId}")
+    public ResponseEntity<ApiResponse<List<InstructorDto>>> detailsOfInstructorsForEachCourse(@PathVariable String organizationId, @PathVariable String courseId) {
+        List<InstructorDto> instructorDtos = organizationService.detailsOfInstructorsForEachCourse(organizationId, courseId);
+        ApiResponse<List<InstructorDto>> response = new ApiResponse<>("Instructor details registered for this course.", HttpStatus.OK, instructorDtos);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/countOfInstructorsInOrganization/{organizationId}")
+    public ResponseEntity<ApiResponse<Integer>> countOfInstructorsInOrganization(@PathVariable String organizationId) {
+        int count = organizationService.countOfInstructorsInOrganization(organizationId);
+        ApiResponse<Integer> response = new ApiResponse<>("The count of instructors in the organization with ID " + organizationId + " is: " + count, HttpStatus.OK, count);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/detailsOfStudentsForEachCourse/{organizationId}/{courseId}")
+    public ResponseEntity<ApiResponse<List<StudentDto>>> detailsOfStudentsForEachCourse(@PathVariable String organizationId, @PathVariable String courseId) {
+        List<StudentDto> studentDtos = organizationService.detailsOfStudentsForEachCourse(organizationId, courseId);
+        ApiResponse<List<StudentDto>> response = new ApiResponse<>("Here are the students enrolled for this course: ", HttpStatus.OK, studentDtos);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/detailsOfCourse/{organizationId}/{courseId}")
+    public ResponseEntity<ApiResponse<CourseDto>> detailsOfCourse(@PathVariable String organizationId, @PathVariable String courseId) {
+        CourseDto courseDto = organizationService.detailsOfCourse(organizationId, courseId);
+        ApiResponse<CourseDto> response = new ApiResponse<>("Course details for the course with ID " + courseId, HttpStatus.OK, courseDto);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/findStudentByCourseStatus/{organizationId}")
+    public ResponseEntity<ApiResponse<List<StudentDto>>> findStudentByCourseStatus(@PathVariable String organizationId, @RequestParam String courseId, @RequestParam CourseStatus status) {
+        List<StudentDto> studentDtos = organizationService.findStudentByCourseStatus(organizationId, courseId, status);
+        ApiResponse<List<StudentDto>> response = new ApiResponse<>("The student details for the selected course status.", HttpStatus.OK, studentDtos);
+        return ResponseEntity.ok(response);
     }
 }

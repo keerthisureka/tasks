@@ -1,6 +1,6 @@
 package com.example.student_lms_postgre.controller;
 
-import com.example.student_lms_postgre.dto.InstructorDto;
+import com.example.student_lms_postgre.dto.ApiResponse;
 import com.example.student_lms_postgre.entity.CourseStatus;
 import com.example.student_lms_postgre.services.InstructorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,39 +8,30 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/instructor")
 public class InstructorController {
     @Autowired
     InstructorService instructorService;
 
-    @GetMapping("/findAll")
-    public List<InstructorDto> findAll() {
-        return instructorService.findAll();
-    }
-
-    @GetMapping("getOne/{id}")
-    public InstructorDto getOne(@PathVariable Long id) {
-        return instructorService.getOne(id);
-    }
-
-    @GetMapping("/registerForCourse")
-    public ResponseEntity<Object> registerForCourse(@RequestParam Long instructorId, @RequestParam Long courseId) {
+    @PutMapping("/registerForCourse")
+    public ResponseEntity<ApiResponse<Void>> registerForCourse(@RequestParam String instructorId, @RequestParam String courseId) {
         instructorService.registerForCourse(instructorId, courseId);
-        return new ResponseEntity<>("Instructor successfully registered for the course!", HttpStatus.OK);
+        ApiResponse<Void> response = new ApiResponse<>("Instructor successfully registered for the course!", HttpStatus.OK, null);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/deregisterFromCourse")
-    public ResponseEntity<Object> deregisterFromCourse(@RequestParam Long instructorId) {
+    public ResponseEntity<ApiResponse<Void>> deregisterFromCourse(@RequestParam String instructorId) {
         instructorService.deregisterFromCourse(instructorId);
-        return new ResponseEntity<>("Instructor successfully de-registered from course!", HttpStatus.OK);
+        ApiResponse<Void> response = new ApiResponse<>("Instructor successfully de-registered from course!", HttpStatus.OK, null);
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/updateStudentStatus/{instructorId}")
-    public ResponseEntity<Object> updateStudentStatus(@PathVariable Long instructorId, @RequestParam Long studentId, @RequestParam Long courseId, @RequestParam CourseStatus status) {
-        instructorService.updateStudentStatus(instructorId, studentId, courseId, status);
-        return new ResponseEntity<>("Course status successfully updated for the given Student ID!", HttpStatus.OK);
+    public ResponseEntity<ApiResponse<Void>> courseUpdateStatusForStudent(@PathVariable String instructorId, @RequestParam String courseId, @RequestParam String studentId, @RequestParam CourseStatus status) {
+        instructorService.courseUpdateStatusForStudent(instructorId, courseId, studentId, status);
+        ApiResponse<Void> response = new ApiResponse<>("Course status successfully updated for the given Student ID!", HttpStatus.OK, null);
+        return ResponseEntity.ok(response);
     }
 }
