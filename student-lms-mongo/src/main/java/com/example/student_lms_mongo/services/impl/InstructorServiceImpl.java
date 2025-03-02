@@ -12,6 +12,8 @@ import com.example.student_lms_mongo.services.InstructorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -58,6 +60,7 @@ public class InstructorServiceImpl implements InstructorService {
     }
 
     @Override
+    @CachePut(value = "instructors", key = "#instructorId")
     public void editInstructor(String organizationId, String instructorId, InstructorDto dto) {
         Organization organization = organizationRepository.findById(organizationId)
                 .orElseThrow(() -> new NotFoundException("Organization not found with ID: " + organizationId));
@@ -84,6 +87,7 @@ public class InstructorServiceImpl implements InstructorService {
     }
 
     @Override
+    @CacheEvict(value = "instructors", key = "#instructorId")
     public void deleteInstructor(String organizationId, String instructorId) {
         Organization organization = organizationRepository.findById(organizationId)
                 .orElseThrow(() -> new NotFoundException("Organization not found with ID: " + organizationId));
@@ -98,6 +102,7 @@ public class InstructorServiceImpl implements InstructorService {
     }
 
     @Override
+    @CachePut(value = "instructors", key = "#instructorId")
     public void registerForCourse(String instructorId, String courseId) {
         Instructor i = instructorRepository.findById(instructorId)
                 .orElseThrow(() -> new NotFoundException("Instructor not found with ID: " + instructorId));
@@ -118,6 +123,7 @@ public class InstructorServiceImpl implements InstructorService {
     }
 
     @Override
+    @CachePut(value = "instructors", key = "#instructorId")
     public void deregisterFromCourse(String instructorId) {
         Instructor i = instructorRepository.findById(instructorId)
                 .orElseThrow(() -> new NotFoundException("Instructor not found with ID: " + instructorId));

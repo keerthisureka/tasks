@@ -141,4 +141,61 @@ db.employee.distinct("firstName") ;
 
 
 
+25.02.2025
+
+Task:
+
+Student Learning Management System For An Organization 
+1. Ability to register/de-register student to platform 
+a) Add Student Details (student id, student name, student dob) 
+b) Edit Student Details 
+c) Delete Student Details 
+
+2. Ability to register/de-register instructor to platform 
+a) Add Instructor Details (instructor id, instructor name, INSTRUCTOR dob, COURSE ID) 
+b) Edit Instructor Details 
+c) Delete Instructor 
+
+3. Ability to register/de-register course to platform 
+a) Add Course (courseId, course name, course fee, course instructor) 
+b) Delete Course 
+
+4. Course Registration/Withdraw for Student 
+a) Student can opt for multiple courses (one student id can have multiple courses) 
+b) Delete course at anytime by organisation 
+
+4. Course Registration/Withdraw for Instructor 
+a) Instructor can register only for one course 
+
+5. As a student, I must be able to 
+a) See the progress of each course (TO_DO | IN_PROGRESS | COMPLETED) 
+b) See the student details c) Enroll for a new course d) Withdraw any course 
+
+6. As an organization, I must be able to 
+a) View count of student enrolled in the organisation 
+b) View count of student enrolled in each course 
+c) View details of instructor for each course 
+d) View the count of instructors in organization 
+e) All the student details, course details, instructor details by COURSE_ID 
+f) All the student details by COURSE STATUS (TO_DO, IN_PROGRESS, COMPLETED) 
+
+7) As an instructor, 
+a) Course Update Status for student 
+
+1. Implement an application that takes care of Postgres DB interactions & Buisness logic via valid endpoints and logging via @Slf4j Also implement Custom Exception Handler using @RestControllerAdvice Implement redis caching and clear/update the cache incase of edits/update/delete operations 
+
+2. Implement an application that takes care of Mongo DB interactions & Buisness logic via valid endpoints and logging @Slf4j Also implement Custom Exception Handler using @RestControllerAdvice Implement redis caching and clear/update the cache incase of edits/update/delete operations 
+
+
+3. implement in memory caching and redis caching in either of the service as you prefer Implementing both is necessary   
+
+
+
+
+27.02.2025
+
+Task:
+
+Implement feign on the above Student LMS such that if mongo == true, call mongo micro service or else call postgre micro service
+
 

@@ -1,11 +1,13 @@
 package com.example.student_lms_mongo.config;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 
 @Configuration
+@EnableCaching
 public class RedisConfig {
     @Value("${redis.port}")
     private int port;

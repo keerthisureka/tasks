@@ -26,7 +26,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public void createOrganization(OrganizationDto dto) {
-        if (dto.getName().isEmpty() || dto.getName() == null) {
+        if (dto.getName() == null || dto.getName().isEmpty()) {
             throw new InvalidException("Organization name is missing!");
         }
         Organization o = new Organization();
