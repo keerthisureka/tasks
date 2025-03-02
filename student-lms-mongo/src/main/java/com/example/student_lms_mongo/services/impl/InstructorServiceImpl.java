@@ -14,6 +14,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -38,11 +40,20 @@ public class InstructorServiceImpl implements InstructorService {
         if (dto.getDob() == null) {
             throw new InvalidException("Instructor dob is missing!");
         }
+        if (dto.getCourseId() != null) {
+            Course c = courseRepository.findById(dto.getCourseId())
+                    .orElseThrow(() -> new InvalidException("Invalid course ID!"));
+        }
         Instructor i = new Instructor();
         BeanUtils.copyProperties(dto, i);
         i.setOrganizationId(organizationId);
         instructorRepository.save(i);
-        organization.getInstructorIds().add(i.getId());
+        List<String> instructorIds = organization.getInstructorIds();
+        if (instructorIds == null) {
+            instructorIds = new ArrayList<>();
+        }
+        instructorIds.add(i.getId());
+        organization.setInstructorIds(instructorIds);
         organizationRepository.save(organization);
     }
 
@@ -65,6 +76,8 @@ public class InstructorServiceImpl implements InstructorService {
             i.setDob(dto.getDob());
         }
         if (dto.getCourseId() != null) {
+            Course c = courseRepository.findById(dto.getCourseId())
+                    .orElseThrow(() -> new InvalidException("Invalid course ID!"));
             i.setCourseId(dto.getCourseId());
         }
         instructorRepository.save(i);
@@ -95,7 +108,12 @@ public class InstructorServiceImpl implements InstructorService {
         }
         i.setCourseId(courseId);
         instructorRepository.save(i);
-        c.getInstructorIds().add(instructorId);
+        List<String> instructorIds = c.getInstructorIds();
+        if (instructorIds == null) {
+            instructorIds = new ArrayList<>();
+        }
+        instructorIds.add(instructorId);
+        c.setInstructorIds(instructorIds);
         courseRepository.save(c);
     }
 

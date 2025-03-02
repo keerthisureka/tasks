@@ -42,13 +42,18 @@ public class CourseServiceImpl implements CourseService {
             throw new InvalidException("Course name is missing!");
         }
         if (dto.getFee() <= 0.0) {
-            throw new InvalidException("Course fee is missing!");
+            throw new InvalidException("Course fee should be above 0.0!");
         }
         Course c = new Course();
         BeanUtils.copyProperties(dto, c);
         c.setOrganizationId(organizationId);
         courseRepository.save(c);
-        organization.getCourseIds().add(c.getId());
+        List<String> courseIds = organization.getCourseIds();
+        if (courseIds == null) {
+            courseIds = new ArrayList<>();
+        }
+        courseIds.add(c.getId());
+        organization.setCourseIds(courseIds);
         organizationRepository.save(organization);
     }
 

@@ -21,5 +21,5 @@ public interface StudentService {
 
     public StudentDto getStudentDetails(String studentId);
 
-    public List<StudentDto> findStudentByCourseStatus(String organizationId, CourseStatus status);
+    public List<StudentDto> findStudentByCourseStatus(String organizationId, String courseId, CourseStatus status);
 }

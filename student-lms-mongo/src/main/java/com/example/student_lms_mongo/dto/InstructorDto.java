@@ -4,18 +4,16 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 public class InstructorDto implements Serializable {
-    private String id;
     private String name;
     private LocalDate dob;
-    private String organizationId;
     private String courseId;
 
-    public String getId() {
-        return id;
+    public String getCourseId() {
+        return courseId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
     }
 
     public String getName() {
@@ -32,21 +30,5 @@ public class InstructorDto implements Serializable {
 
     public void setDob(LocalDate dob) {
         this.dob = dob;
-    }
-
-    public String getOrganizationId() {
-        return organizationId;
-    }
-
-    public void setOrganizationId(String organizationId) {
-        this.organizationId = organizationId;
-    }
-
-    public String getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(String courseId) {
-        this.courseId = courseId;
     }
 }

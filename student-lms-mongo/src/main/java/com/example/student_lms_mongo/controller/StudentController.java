@@ -18,7 +18,7 @@ public class StudentController {
     @Autowired
     StudentService studentService;
 
-    @GetMapping("/enrollInCourse")
+    @PutMapping("/enrollInCourse")
     public ResponseEntity<ApiResponse<Void>> enrollInCourse(@RequestParam String studentId, @RequestParam String courseId, @RequestParam CourseStatus status) {
         studentService.enrollInCourse(studentId, courseId, status);
         ApiResponse<Void> response = new ApiResponse<>("Student successfully enrolled!", HttpStatus.OK, null);

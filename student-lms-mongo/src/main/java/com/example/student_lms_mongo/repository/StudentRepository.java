@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface StudentRepository extends MongoRepository<Student, String> {
-    @Query("{ 'studentCourses.status': ?0 }")
-    public List<Student> findStudentsByCourseStatus(CourseStatus status);
+    @Query("{ 'studentCourses': { $elemMatch: { 'courseId': ?0, 'status': ?1 } } }")
+    public List<Student> findStudentsByCourseStatus(String courseId, CourseStatus status);
 }

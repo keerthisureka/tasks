@@ -54,5 +54,5 @@ public interface OrganizationService {
 
     public CourseDto detailsOfCourse(String organizationId, String courseId);
 
-    public List<StudentDto> findStudentByCourseStatus(String organizationId, CourseStatus status);
+    public List<StudentDto> findStudentByCourseStatus(String organizationId, String courseId, CourseStatus status);
 }

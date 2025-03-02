@@ -42,7 +42,12 @@ public class StudentServiceImpl implements StudentService {
         BeanUtils.copyProperties(dto, s);
         s.setOrganizationId(organizationId);
         studentRepository.save(s);
-        organization.getStudentIds().add(dto.getId());
+        List<String> studentIds = organization.getStudentIds();
+        if (studentIds == null) {
+            studentIds = new ArrayList<>();
+        }
+        studentIds.add(s.getId());
+        organization.setStudentIds(studentIds);
         organizationRepository.save(organization);
     }
 
@@ -64,25 +69,25 @@ public class StudentServiceImpl implements StudentService {
         if (dto.getDob() != null) {
             s.setDob(dto.getDob());
         }
-        if (dto.getStudentCourseDtos() != null) {
-            List<StudentCourseDto> scDtos = dto.getStudentCourseDtos();
-            List<StudentCourse> scList = s.getStudentCourses();
-
-            for (StudentCourseDto scDto : scDtos) {
-                Optional<StudentCourse> existingCourse = scList.stream()
-                        .filter(sc -> sc.getCourseId().equals(scDto.getCourseId()))
-                        .findFirst();
-
-                if (existingCourse.isPresent()) {
-                    existingCourse.get().setStatus(scDto.getStatus());
-                } else {
-                    StudentCourse newCourse = new StudentCourse();
-                    newCourse.setCourseId(scDto.getCourseId());
-                    newCourse.setStatus(scDto.getStatus());
-                    scList.add(newCourse);
-                }
-            }
-        }
+//        if (dto.getStudentCourseDtos() != null) {
+//            List<StudentCourseDto> scDtos = dto.getStudentCourseDtos();
+//            List<StudentCourse> scList = s.getStudentCourses();
+//
+//            for (StudentCourseDto scDto : scDtos) {
+//                Optional<StudentCourse> existingCourse = scList.stream()
+//                        .filter(sc -> sc.getCourseId().equals(scDto.getCourseId()))
+//                        .findFirst();
+//
+//                if (existingCourse.isPresent()) {
+//                    existingCourse.get().setStatus(scDto.getStatus());
+//                } else {
+//                    StudentCourse newCourse = new StudentCourse();
+//                    newCourse.setCourseId(scDto.getCourseId());
+//                    newCourse.setStatus(scDto.getStatus());
+//                    scList.add(newCourse);
+//                }
+//            }
+//        }
         studentRepository.save(s);
     }
 
@@ -106,6 +111,9 @@ public class StudentServiceImpl implements StudentService {
                 .orElseThrow(() -> new NotFoundException("Student with the given ID: " + studentId + " does not exist!"));
         Course c = courseRepository.findById(courseId)
                 .orElseThrow(() -> new NotFoundException("Course with the given ID: " + courseId + " does not exist!"));
+        if (s.getStudentCourses() == null) {
+            s.setStudentCourses(new ArrayList<>());
+        }
         Optional<StudentCourse> existingCourse = s.getStudentCourses().stream()
                 .filter(sc -> sc.getCourseId().equals(courseId)).findFirst();
         if (existingCourse.isPresent()) {
@@ -116,7 +124,12 @@ public class StudentServiceImpl implements StudentService {
         sc.setStatus(status);
         s.getStudentCourses().add(sc);
         studentRepository.save(s);
-        c.getStudentIds().add(studentId);
+        List<String> studentIds = c.getStudentIds();
+        if (studentIds == null) {
+            studentIds = new ArrayList<>();
+        }
+        studentIds.add(studentId);
+        c.setStudentIds(studentIds);
         courseRepository.save(c);
     }
 
@@ -162,10 +175,10 @@ public class StudentServiceImpl implements StudentService {
 
     // Organization
     @Override
-    public List<StudentDto> findStudentByCourseStatus(String organizationId, CourseStatus status) {
+    public List<StudentDto> findStudentByCourseStatus(String organizationId, String courseId, CourseStatus status) {
         Organization organization = organizationRepository.findById(organizationId)
                 .orElseThrow(() -> new NotFoundException("Organization not found with id: " + organizationId));
-        List<Student> students = studentRepository.findStudentsByCourseStatus(status);
+        List<Student> students = studentRepository.findStudentsByCourseStatus(courseId, status);
         List<StudentDto> dto = new ArrayList<>();
         for (Student s : students) {
             StudentDto temp = new StudentDto();

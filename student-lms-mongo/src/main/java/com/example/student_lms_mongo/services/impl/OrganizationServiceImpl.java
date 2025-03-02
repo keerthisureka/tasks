@@ -157,7 +157,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    public List<StudentDto> findStudentByCourseStatus(String organizationId, CourseStatus status) {
-        return studentService.findStudentByCourseStatus(organizationId, status);
+    public List<StudentDto> findStudentByCourseStatus(String organizationId, String courseId, CourseStatus status) {
+        return studentService.findStudentByCourseStatus(organizationId, courseId, status);
     }
 }
