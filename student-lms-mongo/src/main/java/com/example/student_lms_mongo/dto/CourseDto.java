@@ -1,8 +1,9 @@
 package com.example.student_lms_mongo.dto;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class CourseDto {
+public class CourseDto implements Serializable {
     private String id;
     private String name;
     private double fee;

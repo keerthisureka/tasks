@@ -2,45 +2,59 @@ package com.example.student_lms_mongo.services.impl;
 
 import com.example.student_lms_mongo.dto.StudentCourseDto;
 import com.example.student_lms_mongo.dto.StudentDto;
-import com.example.student_lms_mongo.entity.Course;
-import com.example.student_lms_mongo.entity.CourseStatus;
-import com.example.student_lms_mongo.entity.Student;
-import com.example.student_lms_mongo.entity.StudentCourse;
+import com.example.student_lms_mongo.entity.*;
 import com.example.student_lms_mongo.exception.InvalidException;
 import com.example.student_lms_mongo.exception.NotFoundException;
 import com.example.student_lms_mongo.repository.CourseRepository;
+import com.example.student_lms_mongo.repository.OrganizationRepository;
 import com.example.student_lms_mongo.repository.StudentRepository;
 import com.example.student_lms_mongo.services.StudentService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
+@Service
 public class StudentServiceImpl implements StudentService {
     @Autowired
     StudentRepository studentRepository;
     @Autowired
     CourseRepository courseRepository;
+    @Autowired
+    OrganizationRepository organizationRepository;
 
     @Override
-    public void addStudent(StudentDto dto) {
+    public void addStudent(String organizationId, StudentDto dto) {
+        Organization organization = organizationRepository.findById(organizationId)
+                .orElseThrow(() -> new NotFoundException("Organization not found with id: " + organizationId));
         if (dto.getName().isEmpty() || dto.getName() == null) {
             throw new InvalidException("Student name is not specified!");
         }
         if (dto.getDob() == null) {
             throw new InvalidException("Date of Birth (dob) is not specified!");
         }
-        if (dto.getOrganizationId() == null) {
-            throw new InvalidException("Organization ID is not specified!");
-        }
+        Student s = new Student();
+        BeanUtils.copyProperties(dto, s);
+        s.setOrganizationId(organizationId);
+        studentRepository.save(s);
+        organization.getStudentIds().add(dto.getId());
+        organizationRepository.save(organization);
     }
 
     @Override
-    public void editStudent(String id, StudentDto dto) {
-        Student s = studentRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Student not found with id: " + id + ". Cannot edit student details!"));
+    public void editStudent(String organizationId, String studentId, StudentDto dto) {
+        Organization organization = organizationRepository.findById(organizationId)
+                .orElseThrow(() -> new NotFoundException("Organization not found with id: " + organizationId));
+        Student s = studentRepository.findById(studentId)
+                .orElseThrow(() -> new NotFoundException("Student not found with id: " + studentId + ". Cannot edit student details!"));
+        if (!s.getOrganizationId().equals(organizationId)) {
+            throw new InvalidException("Student not registered with the given organization ID!");
+        }
         if (dto == null) {
             throw new InvalidException("Enter the student details to be updated!");
         }
@@ -49,9 +63,6 @@ public class StudentServiceImpl implements StudentService {
         }
         if (dto.getDob() != null) {
             s.setDob(dto.getDob());
-        }
-        if (dto.getOrganizationId() != null) {
-            s.setOrganizationId(dto.getOrganizationId());
         }
         if (dto.getStudentCourseDtos() != null) {
             List<StudentCourseDto> scDtos = dto.getStudentCourseDtos();
@@ -76,18 +87,25 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void deleteStudent(String studentId) {
+    public void deleteStudent(String organizationId, String studentId) {
+        Organization organization = organizationRepository.findById(organizationId)
+                .orElseThrow(() -> new NotFoundException("Organization not found with id: " + organizationId));
         Student s = studentRepository.findById(studentId)
-                .orElseThrow(() -> new InvalidException("Given student ID does not exist!"));
+                .orElseThrow(() -> new NotFoundException("Student not found with ID: " + studentId));
+        if (!s.getOrganizationId().equals(organizationId)) {
+            throw new InvalidException("Student not registered with the given organization ID!");
+        }
         studentRepository.deleteById(studentId);
+        organization.getStudentIds().remove(studentId);
+        organizationRepository.save(organization);
     }
 
     @Override
     public void enrollInCourse(String studentId, String courseId, CourseStatus status) {
         Student s = studentRepository.findById(studentId)
-                .orElseThrow(() -> new InvalidException("Student with the given ID: " + studentId + " does not exist!"));
+                .orElseThrow(() -> new NotFoundException("Student with the given ID: " + studentId + " does not exist!"));
         Course c = courseRepository.findById(courseId)
-                .orElseThrow(() -> new InvalidException("Course with the given ID: " + courseId + " does not exist!"));
+                .orElseThrow(() -> new NotFoundException("Course with the given ID: " + courseId + " does not exist!"));
         Optional<StudentCourse> existingCourse = s.getStudentCourses().stream()
                 .filter(sc -> sc.getCourseId().equals(courseId)).findFirst();
         if (existingCourse.isPresent()) {
@@ -98,26 +116,31 @@ public class StudentServiceImpl implements StudentService {
         sc.setStatus(status);
         s.getStudentCourses().add(sc);
         studentRepository.save(s);
+        c.getStudentIds().add(studentId);
+        courseRepository.save(c);
     }
 
     @Override
     public void withdrawFromCourse(String studentId, String courseId) {
         Student s = studentRepository.findById(studentId)
-                .orElseThrow(() -> new InvalidException("Student with the given ID: " + studentId + " does not exist!"));
+                .orElseThrow(() -> new NotFoundException("Student with the given ID: " + studentId + " does not exist!"));
         Course c = courseRepository.findById(courseId)
-                .orElseThrow(() -> new InvalidException("Course with the given ID: " + courseId + " does not exist!"));
+                .orElseThrow(() -> new NotFoundException("Course with the given ID: " + courseId + " does not exist!"));
         Optional<StudentCourse> existingCourse = s.getStudentCourses().stream()
                 .filter(sc -> sc.getCourseId().equals(courseId)).findFirst();
         if (!existingCourse.isPresent()) {
             throw new InvalidException("Student is not enrolled in this course!");
         }
         s.getStudentCourses().remove(existingCourse.get());
+        studentRepository.save(s);
+        c.getStudentIds().remove(studentId);
+        courseRepository.save(c);
     }
 
     @Override
     public List<StudentCourseDto> courseProgress(String studentId) {
         Student s = studentRepository.findById(studentId)
-                .orElseThrow(() -> new InvalidException("Student with the given ID: " + studentId + " does not exist!"));
+                .orElseThrow(() -> new NotFoundException("Student with the given ID: " + studentId + " does not exist!"));
         List<StudentCourse> scList = s.getStudentCourses();
         List<StudentCourseDto> scDtos = new ArrayList<>();
         for (StudentCourse sc : scList) {
@@ -126,5 +149,29 @@ public class StudentServiceImpl implements StudentService {
             scDtos.add(temp);
         }
         return scDtos;
+    }
+
+    @Override
+    public StudentDto getStudentDetails(String studentId) {
+        Student s = studentRepository.findById(studentId)
+                .orElseThrow(() -> new NotFoundException("Student with the given ID: " + studentId + " does not exist!"));
+        StudentDto dto = new StudentDto();
+        BeanUtils.copyProperties(s, dto);
+        return dto;
+    }
+
+    // Organization
+    @Override
+    public List<StudentDto> findStudentByCourseStatus(String organizationId, CourseStatus status) {
+        Organization organization = organizationRepository.findById(organizationId)
+                .orElseThrow(() -> new NotFoundException("Organization not found with id: " + organizationId));
+        List<Student> students = studentRepository.findStudentsByCourseStatus(status);
+        List<StudentDto> dto = new ArrayList<>();
+        for (Student s : students) {
+            StudentDto temp = new StudentDto();
+            BeanUtils.copyProperties(s, temp);
+            dto.add(temp);
+        }
+        return dto;
     }
 }
