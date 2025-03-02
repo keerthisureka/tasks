@@ -338,3 +338,5 @@
 2025-03-02 17:47:21.365  INFO 11179 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2025-03-02 17:47:21.370  INFO 11179 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 5 ms
 2025-03-02 17:47:44.762  INFO 11179 --- [http-nio-8082-exec-6] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:2, serverValue:37}] to localhost:27017
+2025-03-02 17:56:59.457  INFO 11179 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2025-03-02 17:56:59.461  INFO 11179 --- [SpringContextShutdownHook] org.mongodb.driver.connection            : Closed connection [connectionId{localValue:2, serverValue:37}] to localhost:27017 because the pool has been closed.
