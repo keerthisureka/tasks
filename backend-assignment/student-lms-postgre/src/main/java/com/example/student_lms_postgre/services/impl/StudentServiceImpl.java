@@ -145,6 +145,7 @@ public class StudentServiceImpl implements StudentService {
         for (StudentCourse sc : scList) {
             StudentCourseDto temp = new StudentCourseDto();
             BeanUtils.copyProperties(sc, temp);
+            temp.setCourseId(sc.getCourse().getId());
             scDtos.add(temp);
         }
         return scDtos;
