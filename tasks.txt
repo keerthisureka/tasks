@@ -1,3 +1,5 @@
+BACKEND:
+
 21.02.2025
 
 Task-1:
@@ -198,4 +200,28 @@ Task:
 
 Implement feign on the above Student LMS such that if mongo == true, call mongo micro service or else call postgre micro service
 
+
+
+
+
+
+
+
+FRONTEND:
+
+28.02.2025
+
+Task:
+
+Create a portfolio webpage.
+
+
+
+03.03.2025
+
+Task:
+
+1. Function Declaration: Create a function named findMax that takes five numbers as a parameter and returns the largest number
+2. Function Expression: Define a function expression named sum that takes five numbers and returns the sum of all the numbers
+3. Arrow Function: Create a function to multiply 2 numbers
 
