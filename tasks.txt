@@ -45,7 +45,7 @@ Task-1:
         vi. Each thread should finish reading after 100 records 
         vii. Files should not have duplicate records and should not have more than 100 records
 
-
+---------------------------------------------------------
 
 Task-2:
 
@@ -89,8 +89,7 @@ Skip the first 5 elements and take the next 3 elements from a list of integers.
 
 Given a list of Person objects (with name and age properties), create a list containing only the names of people older than 25.
 
-
-
+---------------------------------------------------------
 
 24.02.2025
 
@@ -110,7 +109,7 @@ Assignment Questions:
 3. Get Total Student Count in a Department -: Create an API to return the total number of students in a given department (departmentID should be passed from path variable or requestParam). Log an error if the department is not found.
 4. Get Students Living in a Particular State -: Implement an API to fetch all students residing in a given state (passed as a path variable).
 
-
+---------------------------------------------------------
 
 25.02.2025
 
@@ -141,7 +140,7 @@ db.employee.aggregate([{$group : {_id : "$departmentName", num_tutorial : {$sum 
 db.employee.distinct("firstName") ;
 db.employee.distinct("firstName") ;
 
-
+---------------------------------------------------------
 
 25.02.2025
 
@@ -191,8 +190,7 @@ a) Course Update Status for student
 
 3. implement in memory caching and redis caching in either of the service as you prefer Implementing both is necessary   
 
-
-
+---------------------------------------------------------
 
 27.02.2025
 
@@ -201,10 +199,8 @@ Task:
 Implement feign on the above Student LMS such that if mongo == true, call mongo micro service or else call postgre micro service
 
 
-
-
-
-
+---------------------------------------------------------
+---------------------------------------------------------
 
 
 FRONTEND:
@@ -215,7 +211,7 @@ Task:
 
 Create a portfolio webpage.
 
-
+---------------------------------------------------------
 
 03.03.2025
 
@@ -225,3 +221,84 @@ Task:
 2. Function Expression: Define a function expression named sum that takes five numbers and returns the sum of all the numbers
 3. Arrow Function: Create a function to multiply 2 numbers
 
+---------------------------------------------------------
+
+04.03.2025
+
+Javascript Task:
+
+Create a web application using HTML, CSS, and vanilla JavaScript that allows users to browse through meal categories, search for specific categories, view meals within a category, and see detailed information about each meal
+Home Page
+->List All Meal Categories as Grid view with associated info like thumbnail, name etc.
+-> Implement a search bar that allows users to search for meal categories by name.
+Category Page
+->When a user clicks on a meal category from the home page, navigate to a new page that lists all the meals available in that category.
+->When a user clicks on a specific meal, display a popup that shows:
+-The recipe for the meal.
+-A YouTube link to a video related to the recipe.
+-Other relevant details about the meal
+
+Use these APIs for this assignment:
+APIs to be used:
+To list all categories: www.themealdb.com/api/json/v1/1/categories.php
+To get meal by category: www.themealdb.com/api/json/v1/1/filter.php?c={category name}
+To get recipe of each meal: https://www.themealdb.com/api/json/v1/1/search.php?s={meal name}
+
+https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+
+https://jsonplaceholder.typicode.com/
+
+---------------------------------------------------------
+
+04.03.2025
+
+Vue.js Task:
+
+Task Description:
+ 
+Create a Product Card component in Vue.js where:
+ 
+1. The product name, price, and image are passed as props.
+ 
+ 
+2. A button toggles between "Add to Cart" and "Remove from Cart" using v-if.
+ 
+ 
+3. A discount price is displayed, calculated using a computed property (10% off the original price).
+ 
+ 
+4. A watcher observes the quantity and logs a message when it changes.
+ 
+ 
+5. Use v-bind to dynamically bind the image source.
+ 
+ 
+6. Use v-on to handle button clicks.
+
+------
+
+Expected Output:
+ 
+A product card with:
+✅ Product Name & Price displayed
+✅ Image of the Product
+✅ Discounted Price (10% off)
+✅ "Add to Cart" / "Remove from Cart" Button
+✅ Quantity selector (logs changes using a watcher)
+
+------
+
+Go through: 
+Arrow function vs Normal function -> this context?
+What is bundlers?
+All Event listeners in JS
+Props and Emits
+LifeCycle hooks
+Event Loop in javascript: https://www.youtube.com/watch?v=eiC58R16hb8&t=550s
+Promises, async-await, Fetch api calls.
+
+------
+
+Go through the essentials section for options api and later on composition:
+ 
+https://vuejs.org/guide/introduction.html
