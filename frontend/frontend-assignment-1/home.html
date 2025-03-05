@@ -1,14 +1,24 @@
 <!DOCTYPE html>
-    <head>
-        <title>Meals</title>
-    </head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Categories</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Meal Categories</h1>
 
-    <body>
-        <div class="nav">
-            <input type="text" value="Search for a category or meal..." id="searchText" />
-            <button id="searchBtn">Search</button>
-
-            <select id="category"></select>
+        <div class="search-container">
+            <input type="text" id="searchBar" placeholder="Search for a category..." />
+            <button id="searchBtn" onclick="searchCategory()">Search</button>
+            <select id="categoryDropdown"></select>
         </div>
-    </body>
+    </header>
+
+    <div id="categories" class="grid-container"></div>
+
+    <script src="script.js"></script>
+</body>
 </html>

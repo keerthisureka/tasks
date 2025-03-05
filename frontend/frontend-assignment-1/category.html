@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meals in Category</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1 id="categoryTitle"></h1>
+        <button onclick="goBack()">Back</button>
+    </header>
+
+    <div id="meals" class="grid-container"></div>
+
+    <!-- Meal Details Modal -->
+    <div id="mealModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeMealModal()">&times;</span>
+            <h2 id="mealTitle"></h2>
+            <img id="mealImage" src="" alt="">
+            <p id="mealInstructions"></p>
+            <a id="mealVideo" href="" target="_blank">Watch on YouTube</a>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
