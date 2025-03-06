@@ -11,7 +11,7 @@
         <h1>Meal Categories</h1>
 
         <div class="search-container">
-            <input type="text" id="searchBar" placeholder="Search for a category..." />
+            <input type="text" id="searchBar" placeholder="Search for a category..." onkeypress="handle(event)" />
             <button id="searchBtn" onclick="searchCategory()">Search</button>
             <select id="categoryDropdown"></select>
         </div>

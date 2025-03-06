@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     loadCategories();
-    document.getElementById("searchBtn").addEventListener("click", searchCategory);
+    document.getElementById("searchBtn").addEventListener("click", searchMeal);
     document.getElementById("categoryDropdown").addEventListener("change", searchCategory);
 });
 
@@ -10,6 +10,12 @@ document.addEventListener("DOMContentLoaded", () => {
         loadMealsByCategory();
     }
 });
+
+function handle(e){
+    if(e.keyCode === 13){
+        searchMeal();
+    }
+}
 
 // Fetch and Display All Categories
 async function loadCategories() {
@@ -44,13 +50,15 @@ async function loadCategories() {
     });
 }
 
-// Search Category and Show Description
+// Select Category and Show Description
 async function searchCategory() {
     const searchText = document.getElementById("searchBar").value.toLowerCase();
     const dropdownText = document.getElementById("categoryDropdown").value;
 
     const res = await fetch("https://www.themealdb.com/api/json/v1/1/categories.php");
     const data = await res.json();
+
+    if (!searchText) return;
 
     const container = document.getElementById("categories");
     container.innerHTML = ""; 
@@ -107,7 +115,7 @@ async function loadMealsByCategory() {
     const res = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`);
     const data = await res.json();
 
-    console.log("Meals API Response:", data); // Debugging: Check fetched meals
+    console.log("Meals API Response:", data);
 
     const container = document.getElementById("meals");
     container.innerHTML = "";
@@ -166,4 +174,43 @@ function closeMealModal() {
 // Go Back to Home Page
 function goBack() {
     window.location.href = "home.html";
+}
+
+// Function to handle search for a meal by name
+async function searchMeal() {
+    const searchText = document.getElementById("searchBar").value.toLowerCase();
+
+    // Check if the search input is empty
+    if (!searchText) {
+        return;
+    }
+
+    const res = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchText}`);
+    const data = await res.json();
+
+    const container = document.getElementById("categories");
+    container.innerHTML = "";
+
+    // If there are no results
+    if (data.meals === null) {
+        container.innerHTML = "<p>No meals found!</p>";
+        return;
+    }
+
+    // Display results
+    data.meals.forEach(meal => {
+        console.log("Meal Loaded:", meal.strMeal);
+
+        const card = document.createElement("div");
+        card.classList.add("card");
+        card.innerHTML = `
+            <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
+            <h3>${meal.strMeal}</h3>
+        `;
+
+        // Clicking a meal should show details
+        card.addEventListener("click", () => showMealDetails(meal.strMeal));
+
+        container.appendChild(card);
+    });
 }

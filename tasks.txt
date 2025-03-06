@@ -302,3 +302,42 @@ Promises, async-await, Fetch api calls.
 Go through the essentials section for options api and later on composition:
  
 https://vuejs.org/guide/introduction.html
+
+
+---------------------------------------------------------
+
+
+05.03.2025
+
+Task:
+
+ask: Movie Explorer App
+Create a simple Movie Explorer App where users can:
+Search for movies using an API (like OMDB API or a mock JSON file) -> authenticated api, so you might need to have a authKey or simply mock the data
+View movie details by clicking on a movie.
+Mark movies as "Favorites", which will be stored in localStorage.
+Use Vue slots for reusable components (e.g., a card component for movies).
+Use Vue Router to navigate between pages (Home, Favorites, Movie Details).
+Use Dynamic styling or Use custom directives (e.g., highlight favorite movies). (Bonus for custom directives)
+Use watchers and computed properties to optimize API calls and filter movies.
+Requirements & Usage of vue concepts:
+✅ Vue Router:
+/ → Home page (Movie Search)
+/movie/:id → Movie Details page
+/favorites → List of favorite movies
+✅ Fetch API Calls:
+Fetch movie data from an external API (OMDB API) or use a mock JSON file.
+✅ Slots:
+A reusable <MovieCard> component that uses slots for movie title and details.
+✅ Computed Properties:
+Filter movies based on search input.
+✅ Watchers:
+Watch the search input and fetch movies dynamically.
+Watch changes to favorites and store them in localStorage.
+✅ Directives:
+Create a custom directive (v-highlight) to highlight favorite movies.
+Bonus Challenge
+Implement a loading spinner when fetching movies.
+Allow users to remove movies from favorites.
+
+
