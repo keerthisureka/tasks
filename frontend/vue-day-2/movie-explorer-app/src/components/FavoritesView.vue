@@ -1,4 +1,3 @@
-<!-- Favorites.vue -->
 <template>
   <div class="favorites-container">
     <h1>Your Favorite Movies</h1>

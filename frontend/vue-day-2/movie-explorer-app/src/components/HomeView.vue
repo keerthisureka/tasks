@@ -5,7 +5,6 @@
     <router-link to="/favorites" class="favorites-button" tag="button">
       View Favorites
     </router-link>
-    <LoadingSpinner v-if="loading" />
     <MovieList :movies="movies" />
   </div>
 </template>
@@ -13,20 +12,16 @@
 <script>
 import SearchBar from './SearchBar.vue';
 import MovieList from './MovieList.vue';
-import LoadingSpinner from './LoadingSpinner.vue';
 
 export default {
   components: { SearchBar, MovieList },
   data() {
     return {
-      movies: [],
-      loading: false
+      movies: []
     };
   },
   methods: {
     async searchMovies(query) {
-      if (query.length < 3) return;
-      this.loading = true;
       try {
         const response = await fetch(`https://www.omdbapi.com/?apikey=2205c78f&s=${query}`);
         if (!response.ok) throw new Error(response.status);
@@ -34,8 +29,6 @@ export default {
         this.movies = data.Search || [];
       } catch (error) {
         console.error(error);
-      } finally {
-        this.loading = false;
       }
     }
   }

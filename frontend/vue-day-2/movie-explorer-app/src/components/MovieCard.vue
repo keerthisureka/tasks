@@ -21,9 +21,6 @@ export default {
       hover: false,
     };
   },
-  mounted() {
-    this.checkFavorite();
-  },
   watch: {
     movie: {
       immediate: true,
