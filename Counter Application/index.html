@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter Application</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .counter {
+            font-size: 2em;
+            margin: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Counter Application</h1>
+    <div class="counter" id="counterValue">0</div>
+    <div>
+        <button onclick="increaseCounter()">Increase</button>
+        <button onclick="decreaseCounter()">Decrease</button>
+    </div>
+
+    <script>
+        let counter = 0;
+
+        function updateCounter() {
+            document.getElementById('counterValue').textContent = counter;
+        }
+
+        function increaseCounter() {
+            counter++;
+            updateCounter();
+        }
+
+        function decreaseCounter() {
+            counter--;
+            updateCounter();
+        }
+    </script>
+</body>
+</html>
